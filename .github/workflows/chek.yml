@@ -1,0 +1,32 @@
+# file: .github/workflows/check.yml
+name: test project 3(frontend-project-11, rss)
+# on – определяет события, которые запускают воркфлоу
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4 #clone rep
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23.5.0'
+
+      - name: install dependencies
+        run: npm install
+
+      - name: run linter
+        run: make lint
+
+
+      # - name: Test & publish code coverage
+      #   # Publish code coverage on Code Climate
+      #   # https://github.com/paambaati/codeclimate-action
+      #   uses: paambaati/codeclimate-action@v5.0.0
+      #   # Add Code Climate secret key
+      #   env:
+      #     CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      #   with:
+      #     coverageCommand: make test-coverage
+      #     debug: true
