@@ -1,56 +1,40 @@
-'use strict';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-const path = require('path');
-const autoprefixer = require('autoprefixer');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = {
-  mode: 'development',
-  entry: './src/js/main.js',
-  output: {
-    filename: 'main.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
-  devServer: {
-    static: path.resolve(__dirname, 'dist'),
-    port: 8080,
-    hot: true,
-  },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })],
+export default {
+  mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
       {
-        test: /\.(scss)$/,
-        use: [
-          {
-            // Adds CSS to the DOM by injecting a `<style>` tag
-            loader: 'style-loader',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
           },
-          {
-            // Interprets `@import` and `url()` like `import/require()` and will resolve them
-            loader: 'css-loader',
-          },
-          {
-            // Loader for webpack to process CSS with PostCSS
-            loader: 'postcss-loader',
-            options: {
-              postcssOptions: {
-                plugins: [autoprefixer],
-              },
-            },
-          },
-          {
-            // Loads a SASS/SCSS file and compiles it to CSS
-            loader: 'sass-loader',
-            options: {
-              sassOptions: {
-                // Silence Sass deprecation warnings
-                silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import'],
-              },
-            },
-          },
-        ],
+        },
+      },
+      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: 'url-loader?limit=10000',
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        use: 'file-loader',
       },
     ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'template.html',
+    }),
+  ],
+  output: {
+    clean: true,
   },
 };
