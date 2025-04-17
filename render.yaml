@@ -1,0 +1,6 @@
+services:
+  - type: web
+    runtime: node
+    name: rss-aggregator
+    buildCommand: npx webpack
+    startCommand: npm start
