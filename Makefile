@@ -9,6 +9,8 @@ install:
 	npm ci # installing dependencies based on package.json
 build:
 	NODE_ENV=production npx webpack
+start:
+    npm start
 publish:
 	npm publish --dry-run
 test:

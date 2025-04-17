@@ -1,4 +1,5 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin'); // Импортируем HtmlWebpackPlugin
 
 module.exports = {
   entry: './src/js/main.js',
@@ -40,4 +41,9 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'index.html',
+    }),
+  ],
 };
