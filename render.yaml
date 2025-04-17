@@ -1,0 +1,10 @@
+version: 1
+  services:
+    - type: web
+      name: RSS_Agregator
+      env: node
+      buildCommand: npm install
+      startCommand: npm start
+      repo: https://github.com/GalinaBagram1987/frontend-project-11
+      branch: main
+      autoDeploy: true
