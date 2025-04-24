@@ -2,5 +2,5 @@ services:
   - type: web
     runtime: node
     name: rss-aggregator
-    buildCommand: npm install && npx webpack
+    buildCommand: npm install && npx webpack && webpack cli
     startCommand: npm start
