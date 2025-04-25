@@ -10,7 +10,7 @@ install:
 build:
 	NODE_ENV=production npx webpack
 start:
-    npm start
+	npm start
 publish:
 	npm publish --dry-run
 test:
