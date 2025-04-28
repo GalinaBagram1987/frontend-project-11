@@ -73,6 +73,5 @@ export default [
       'no-console': 'off',
       'import/no-extraneous-dependencies': 'off',
     },
-    'global-require': 'off',
   },
 ];
