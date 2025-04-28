@@ -5,7 +5,7 @@
 develop:
 	npx webpack serve --mode development # Запускает сервер разработки
 install:
-	npm install # installing dependencies based on package.json
+	npm ci # installing dependencies based on package.json
 build:
 	NODE_ENV=production npx webpack
 run:
