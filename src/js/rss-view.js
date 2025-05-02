@@ -1,6 +1,6 @@
-import { watchedState } from './state.js';
+// import { watchedState } from './state.js';
 
-const renderErrors = () => {
+const renderErrors = (watchedState) => {
   const urlInput = document.querySelector('#url-input');
   // const button = document.querySelector('[aria-label="add"]');
   const feedback = document.querySelector('.feedback');

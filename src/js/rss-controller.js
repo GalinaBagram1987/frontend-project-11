@@ -2,24 +2,22 @@
 import * as yup from 'yup';
 import schemaValidate from './schemaForValidate.js';
 
-// import { watchedState  } from './state.js';
+import { watchedState } from './state.js';
 // import fsp from 'fs/promises';
 
-const validateUrl = (watchedState, inputValue) => {
-  const newState = { ...watchedState };
+const validateUrl = (inputValue) => {
+  watchedState.inputData = inputValue;
 
-  newState.inputData = inputValue;
-
-  console.log({ newState });
+  console.log({ watchedState });
 
   return schemaValidate
     .validate({ url: inputValue }, { abortEarly: false })
     .then(() => {
-      newState.validationStatus = 'valid';
+      watchedState.validationStatus = 'valid';
     })
     .catch((error) => {
       if (error instanceof yup.ValidationError) {
-        newState.validationStatus = 'invalid';
+        watchedState.validationStatus = 'invalid';
       }
     });
 };

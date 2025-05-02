@@ -11,5 +11,5 @@ const state = {
 };
 
 const watchedState = onChange(state);
-
+console.log(watchedState);
 export { state, watchedState };

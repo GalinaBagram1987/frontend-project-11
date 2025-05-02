@@ -1,6 +1,7 @@
 import path from 'path';
 import HtmlWebpackPlugin from 'html-webpack-plugin'; // Импортируем HtmlWebpackPlugin
 import { fileURLToPath } from 'url';
+import TerserPlugin from 'terser-webpack-plugin'; // Импортируйте TerserPlugin
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +51,19 @@ const config = {
   ],
   output: {
     clean: true,
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: false, // Убедитесь, что эта опция установлена
+          },
+        },
+        extractComments: false,
+      }),
+    ],
   },
 };
 export default config;
