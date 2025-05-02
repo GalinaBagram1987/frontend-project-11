@@ -1,6 +1,6 @@
 import { watchedState } from './state.js';
 
-export const renderErrors = () => {
+const renderErrors = () => {
   const urlInput = document.querySelector('#url-input');
   // const button = document.querySelector('[aria-label="add"]');
   const feedback = document.querySelector('.feedback');
@@ -12,3 +12,4 @@ export const renderErrors = () => {
     feedback.textContent = ''; // Убираем сообщение при валидном URL
   }
 };
+export default renderErrors;

@@ -5,7 +5,7 @@ import schemaValidate from './schemaForValidate.js';
 // import { watchedState  } from './state.js';
 // import fsp from 'fs/promises';
 
-export const validateUrl = (watchedState, inputValue) => {
+const validateUrl = (watchedState, inputValue) => {
   const newState = { ...watchedState };
 
   newState.inputData = inputValue;
@@ -23,3 +23,5 @@ export const validateUrl = (watchedState, inputValue) => {
       }
     });
 };
+
+export default validateUrl;

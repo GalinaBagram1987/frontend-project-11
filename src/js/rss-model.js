@@ -1,5 +1,5 @@
-import { validateUrl } from './rss-controller.js';
-import { renderErrors } from './rss-view.js';
+import validateUrl from './rss-controller.js';
+import renderErrors from './rss-view.js';
 import { state } from './state.js';
 
 const rssLogic = () => {
