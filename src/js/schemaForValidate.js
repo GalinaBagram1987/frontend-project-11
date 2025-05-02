@@ -1,7 +1,7 @@
 import * as yup from 'yup';
-import { watchedState } from './rss-model';
+import { watchedState } from './state.js';
 
-export const schemaValidate = yup.object().shape({
+const schemaValidate = yup.object().shape({
   url: yup
     .string()
     .url('Ссылка должна быть валидным URL')
@@ -13,3 +13,5 @@ export const schemaValidate = yup.object().shape({
       return rssPattern.test(url);
     }),
 });
+
+export default schemaValidate;

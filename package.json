@@ -2,6 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "RSS-aggregator",
+  "type": "module",
   "homepage": "https://github.com/GalinaBagram1987/frontend-project-11#readme",
   "bugs": {
     "url": "https://github.com/GalinaBagram1987/frontend-project-11/issues"

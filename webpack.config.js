@@ -1,7 +1,11 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // Импортируем HtmlWebpackPlugin
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin'; // Импортируем HtmlWebpackPlugin
+import { fileURLToPath } from 'url';
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const config = {
   mode: 'development', // или 'production
   entry: './src/js/index.js',
   devServer: {
@@ -48,3 +52,4 @@ module.exports = {
     clean: true,
   },
 };
+export default config;

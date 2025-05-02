@@ -1,17 +1,25 @@
-import { schemaValidate } from './schemaForValidate';
-// import { watchedState } from './rss-model';
-import fsp from 'fs/promises';
+// import axios from 'axios';
+import * as yup from 'yup';
+import schemaValidate from './schemaForValidate.js';
 
-export const validateUrl = (state, inputValue) => {
-  state.inputData = inputValue;
+// import { watchedState  } from './state.js';
+// import fsp from 'fs/promises';
+
+export const validateUrl = (watchedState, inputValue) => {
+  const newState = { ...watchedState };
+
+  newState.inputData = inputValue;
+
+  console.log({ newState });
+
   return schemaValidate
     .validate({ url: inputValue }, { abortEarly: false })
     .then(() => {
-      state.validationStatus = 'valid';
+      newState.validationStatus = 'valid';
     })
     .catch((error) => {
       if (error instanceof yup.ValidationError) {
-        state.validationStatus = 'invalid';
+        newState.validationStatus = 'invalid';
       }
     });
 };
