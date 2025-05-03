@@ -1,10 +1,9 @@
-// import { watchedState } from './state.js';
+import { watchedState } from './state.js';
 
-const renderErrors = (watchedState) => {
+const renderErrors = () => {
   const urlInput = document.querySelector('#url-input');
-  // const button = document.querySelector('[aria-label="add"]');
   const feedback = document.querySelector('.feedback');
-  if (watchedState.validateStatus === 'invalid') {
+  if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('is-invalid');
     feedback.textContent = 'Ссылка должна быть валидным URL';
   } else {

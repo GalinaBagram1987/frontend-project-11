@@ -8,16 +8,18 @@ const rssLogic = () => {
   const input = document.querySelector('#url-input'); // Находим инпут по ID
   console.log(input);
 
-  form.addEventListener('submit', async (event) => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const inputValue = event.target.value.trim();
-    validateUrl(watchedState, inputValue).then(() => {
-      renderErrors(); // Обновляем интерфейс после валидации
-    });
-    // else if (state.validationStatus === 'valid') {
-    // запускаем функцию получения данных
-    // запускаем рендер списка
-    // }
+    // const inputValue = event.target.value;
+    const inputValue = input.value;
+    validateUrl(watchedState, inputValue)
+      .then(() => {
+        // Обновляем интерфейс после валидации
+        renderErrors();
+      })
+      .catch(() => {
+        renderErrors();
+      });
   });
 };
 
