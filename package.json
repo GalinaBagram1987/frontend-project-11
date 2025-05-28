@@ -22,7 +22,11 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.3.5",
+<<<<<<< HEAD
     "i18next": "^25.2.1",
+=======
+    "i18next": "^25.0.2",
+>>>>>>> 253dfdbe736d02ec9f2579b8fd13168d5eed4abc
     "lodash": "^4.17.21",
     "on-change": "^5.0.1",
     "yup": "^1.6.1"
