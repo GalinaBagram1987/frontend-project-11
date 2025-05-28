@@ -13,14 +13,15 @@ const validateUrl = (inputValue) => {
     .validate({ url: inputValue }, { abortEarly: false })
     .then(() => {
       watchedState.validationStatus = 'valid';
-      watchedState.errorMessages = [];
+      watchedState.errorKey = [];
       return true; // Возвращаем true для дальнейшей логики
     })
     .catch((error) => {
       if (error instanceof yup.ValidationError) {
         watchedState.validationStatus = 'invalid';
-        watchedState.errorMessages = error.errors;
-        throw new Error(error.errors); // Пробрасываем ошибку дальше
+        const firstError = error.errors;
+        watchedState.errorKey = firstError; // Сохраняем в watchedState
+        throw new Error(firstError); // Пробрасываем ошибку дальше
       }
     });
 };

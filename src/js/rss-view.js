@@ -1,3 +1,4 @@
+import i18next from './i18next.js';
 import { watchedState } from './state.js';
 
 const renderErrors = () => {
@@ -5,10 +6,10 @@ const renderErrors = () => {
   const feedback = document.querySelector('.feedback');
   if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('is-invalid');
-    feedback.textContent = watchedState.errorMessages.join(', ');
+    feedback.innerHTML = i18next.t(watchedState.errorKey);
   } else {
     urlInput.classList.remove('is-invalid');
-    feedback.textContent = ''; // Убираем сообщение при валидном URL
+    feedback.innerHTML = ''; // Убираем сообщение при валидном URL
   }
 };
 

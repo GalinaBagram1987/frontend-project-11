@@ -18,11 +18,11 @@ const schemaValidate = yup.object().shape({
   url: yup
     .string()
     .url(i18next.t('errorRSS'))
-    .trim()
+    // .trim()
     .required()
     .notOneOf(watchedState.feeds, i18next.t('errorUniq'))
-    .test('URL must be valid', i18next.t('errorRSS'), (url) => {
-      const rssPattern = /\.(xml|rss|feed|feed=atom)$/i;
+    .test(i18next.t('errorRSS'), (url) => {
+      const rssPattern = /\.(xml|rss|feed)$/i;
       return rssPattern.test(url);
     }),
 });
