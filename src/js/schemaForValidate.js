@@ -18,9 +18,9 @@ const schemaValidate = yup.object().shape({
     .string()
     .url('errorRSS')
     .required()
-    .notOneOf(watchedState.feeds, 'errorUniq')
+    .notOneOf(watchedState.UI.feeds, 'errorUniq')
     .test('errorRSS', (url) => {
-      const rssPattern = /\.(xml|rss|feed)$/i;
+      const rssPattern = /(\.(xml|rss|feed))|((\/feed)|(\/feeds))$/i;
       return rssPattern.test(url);
     }),
 });

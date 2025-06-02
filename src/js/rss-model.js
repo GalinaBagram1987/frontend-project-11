@@ -1,4 +1,4 @@
-import validateUrl from './rss-controller.js';
+import { validateUrl, getData } from './rss-controller.js';
 import renderErrors from './rss-view.js';
 
 const rssLogic = () => {
@@ -10,11 +10,10 @@ const rssLogic = () => {
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     // const inputValue = event.target.value;
-    const inputValue = input.value;
+    const inputValue = input.value.trim();
     validateUrl(inputValue)
       .then(() => {
-        // Обновляем интерфейс после валидации
-        // renderErrors();
+        getData(inputValue);
       })
       .catch(() => {
         renderErrors();

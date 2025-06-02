@@ -1,4 +1,4 @@
-// import axios from 'axios';
+import axios from 'axios';
 import * as yup from 'yup';
 import schemaValidate from './schemaForValidate.js';
 
@@ -26,4 +26,27 @@ const validateUrl = (inputValue) => {
     });
 };
 
-export default validateUrl;
+const getData = (inputValue) => {
+  watchedState.inputData = inputValue.trim();
+  watchedState.dataFetchStatus = 'processing';
+  const proxyUrl = `https://allorigins.hexlet.app/get?url=
+  ${encodeURIComponent(watchedState.inputData.trim())}`;
+  return axios
+    .get(proxyUrl, {
+      responseType: 'json',
+      // headers: {
+      // 'Cache-Control': 'no-cache',
+      // },
+    })
+    .then((response) => {
+      watchedState.getData = response.data;
+      watchedState.getDataError = {};
+      watchedState.dataFetchStatus = 'success';
+    })
+    .catch((error) => {
+      watchedState.getDataError = error.message;
+      watchedState.dataFetchStatus = 'failed';
+    });
+};
+
+export { validateUrl, getData };
