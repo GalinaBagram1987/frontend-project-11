@@ -1,6 +1,5 @@
 import validateUrl from './rss-controller.js';
 import renderErrors from './rss-view.js';
-import { watchedState } from './state.js';
 
 const rssLogic = () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
@@ -12,10 +11,10 @@ const rssLogic = () => {
     event.preventDefault();
     // const inputValue = event.target.value;
     const inputValue = input.value;
-    validateUrl(watchedState, inputValue)
+    validateUrl(inputValue)
       .then(() => {
         // Обновляем интерфейс после валидации
-        renderErrors();
+        // renderErrors();
       })
       .catch(() => {
         renderErrors();

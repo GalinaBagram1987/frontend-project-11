@@ -1,27 +1,25 @@
 import * as yup from 'yup';
 import { setLocale } from 'yup';
-import i18next from './i18next.js';
 import { watchedState } from './state.js';
 
 setLocale({
   mixed: {
-    default: i18next.t('errorRSS'),
-    notOneOf: i18next.t('errorUniq'),
+    default: 'errorRSS',
+    notOneOf: 'errorUniq',
   },
   string: {
-    url: i18next.t('errorRSS'),
-    test: i18next.t('errorRSS'),
+    url: 'errorRSS',
+    test: 'errorRSS',
   },
 });
 
 const schemaValidate = yup.object().shape({
   url: yup
     .string()
-    .url(i18next.t('errorRSS'))
-    // .trim()
+    .url('errorRSS')
     .required()
-    .notOneOf(watchedState.feeds, i18next.t('errorUniq'))
-    .test(i18next.t('errorRSS'), (url) => {
+    .notOneOf(watchedState.feeds, 'errorUniq')
+    .test('errorRSS', (url) => {
       const rssPattern = /\.(xml|rss|feed)$/i;
       return rssPattern.test(url);
     }),
