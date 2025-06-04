@@ -50,8 +50,12 @@ const parserData = () => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(watchedState.getData, 'text/xml');
     const channel = xmlDoc.querySelector('channel');
-    const feedName = channel.querySelector('title').textContent;
-    const feedDescription = channel.querySelector('description').textContent;
+    const feedName = channel.querySelector('title')
+      ? channel.querySelector('title').textContent
+      : '';
+    const feedDescription = channel.querySelector('description')
+      ? channel.querySelector('description').textContent
+      : '';
 
     const feed = {
       name: feedName,
@@ -61,22 +65,29 @@ const parserData = () => {
     };
 
     const items = channel.querySelectorAll('item');
-    const articles = Array.from(items);
-    articles.map((article) => {
-      const articleTitle = article.querySelector('title').textContent;
-      const articleDescr = article.querySelector('description').textContent;
-      const articleUrl = article.querySelector('link').textContent;
-      if (!articleUrl) {
-        return null;
-      }
-      return {
-        title: articleTitle,
-        description: articleDescr,
-        url: articleUrl,
-        id: uniqueId(),
-        feedId: feed.id,
-      };
-    });
+    const articles = Array.from(items)
+      .map((article) => {
+        const articleTitle = article.querySelector('title')
+          ? article.querySelector('title').textContent
+          : '';
+        const articleDescr = article.querySelector('description')
+          ? article.querySelector('description').textContent
+          : '';
+        const articleUrl = article.querySelector('link')
+          ? article.querySelector('link').textContent
+          : '';
+        if (!articleUrl) {
+          return null;
+        }
+        return {
+          title: articleTitle,
+          description: articleDescr,
+          url: articleUrl,
+          id: uniqueId(),
+          feedId: feed.id,
+        };
+      })
+      .filter((article) => article);
     watchedState.UI.article = { articles, ...watchedState.UI.article };
     watchedState.UI.feeds = { feed, ...watchedState.UI.feeds };
   } catch (error) {

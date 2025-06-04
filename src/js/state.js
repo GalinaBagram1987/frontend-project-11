@@ -19,6 +19,7 @@ const state = {
 
 const watchedState = onChange(state, (path, value, previousValue) => {
   console.log(`Путь "${path}" изменился с ${previousValue} на ${value}`);
+  console.log(watchedState);
 });
 
 export { state, watchedState };
