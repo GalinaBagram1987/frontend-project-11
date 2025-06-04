@@ -1,4 +1,4 @@
-import { validateUrl, getData } from './rss-controller.js';
+import { validateUrl, getData, parserData } from './rss-controller.js';
 import renderErrors from './rss-view.js';
 
 const rssLogic = () => {
@@ -14,6 +14,7 @@ const rssLogic = () => {
     validateUrl(inputValue)
       .then(() => {
         getData(inputValue);
+        parserData();
       })
       .catch(() => {
         renderErrors();

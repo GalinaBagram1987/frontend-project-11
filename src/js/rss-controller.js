@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as yup from 'yup';
+import { uniqueId } from 'lodash';
 import schemaValidate from './schemaForValidate.js';
 
 import { watchedState } from './state.js';
@@ -29,15 +30,10 @@ const validateUrl = (inputValue) => {
 const getData = (inputValue) => {
   watchedState.inputData = inputValue.trim();
   watchedState.dataFetchStatus = 'processing';
-  const proxyUrl = `https://allorigins.hexlet.app/get?url=
+  const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
   ${encodeURIComponent(watchedState.inputData.trim())}`;
   return axios
-    .get(proxyUrl, {
-      responseType: 'json',
-      // headers: {
-      // 'Cache-Control': 'no-cache',
-      // },
-    })
+    .get(proxyUrl)
     .then((response) => {
       watchedState.getData = response.data;
       watchedState.getDataError = {};
@@ -49,4 +45,44 @@ const getData = (inputValue) => {
     });
 };
 
-export { validateUrl, getData };
+const parserData = () => {
+  try {
+    const parser = new DOMParser();
+    const xmlDoc = parser.parseFromString(watchedState.getData, 'text/xml');
+    const channel = xmlDoc.querySelector('channel');
+    const feedName = channel.querySelector('title').textContent;
+    const feedDescription = channel.querySelector('description').textContent;
+
+    const feed = {
+      name: feedName,
+      description: feedDescription,
+      // url, ?? где взять
+      id: uniqueId(),
+    };
+
+    const items = channel.querySelectorAll('item');
+    const articles = Array.from(items);
+    articles.map((article) => {
+      const articleTitle = article.querySelector('title').textContent;
+      const articleDescr = article.querySelector('description').textContent;
+      const articleUrl = article.querySelector('link').textContent;
+      if (!articleUrl) {
+        return null;
+      }
+      return {
+        title: articleTitle,
+        description: articleDescr,
+        url: articleUrl,
+        id: uniqueId(),
+        feedId: feed.id,
+      };
+    });
+    watchedState.UI.article = { articles, ...watchedState.UI.article };
+    watchedState.UI.feeds = { feed, ...watchedState.UI.feeds };
+  } catch (error) {
+    watchedState.parsingError = error.message;
+    watchedState.parsingStatus = 'failed';
+  }
+};
+
+export { validateUrl, getData, parserData };

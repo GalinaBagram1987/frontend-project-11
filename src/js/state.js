@@ -8,9 +8,11 @@ const state = {
   connectionStatus: 'idle', // Статус подключения: 'idle'(проц запущен), 'connected', 'disconnected', 'error'
   // rssExistsStatus: 'not_checked', // Статус проверки сущ-я RSS: 'exists', 'not_exists', 'error'
   getDataError: {},
-  getData: [],
+  getData: '',
+  parsingStatus: 'filling', // Статус: 'filling'(заполнение), 'processing', 'failed', 'success'
+  parsingError: {},
   UI: {
-    article: [], // статьи
+    article: {}, // статьи
     feeds: [], // поля
   },
 };
