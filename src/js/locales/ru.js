@@ -1,9 +1,10 @@
 const ruTransl = {
   translation: {
     errorRSS: 'Ссылка должна быть валидным RSS',
+    errorParsing: 'Ошибка парсинга данных',
     errorUniq: 'RSS уже существует',
     downloadOk: 'RSS успешно загружен',
-    // downloadError: 'ошибка загрузки RSS',
+    downloadError: 'Ошибка сети',
     posts: 'Посты',
     feed: 'Фиды',
     viewButton: 'Просмотр',

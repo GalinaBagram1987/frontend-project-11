@@ -1,5 +1,5 @@
 import { validateUrl, getData, parserData } from './rss-controller.js';
-import renderErrors from './rss-view.js';
+import { renderErrors, renderGetDataError, renderRSS } from './rss-view.js';
 
 const rssLogic = () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
@@ -14,7 +14,9 @@ const rssLogic = () => {
     validateUrl(inputValue)
       .then(() => {
         getData(inputValue);
+        renderGetDataError();
         parserData();
+        renderRSS();
       })
       .catch(() => {
         renderErrors();

@@ -1,9 +1,10 @@
 const enTransl = {
   translation: {
     errorRSS: 'The link must be a valid RSS',
+    errorParsing: 'Error parsing data',
     errorUniq: 'RSS already exists',
     downloadOk: 'RSS successfully uploaded',
-    // downloadError: 'RSS download error',
+    downloadError: 'Network error',
     posts: 'Posts',
     feed: 'Feeds',
     viewButton: 'View',
