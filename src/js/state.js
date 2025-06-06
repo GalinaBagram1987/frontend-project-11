@@ -7,8 +7,8 @@ const state = {
   errorKey: '', // ключ ошибки для перевода,
   connectionStatus: 'idle', // Статус подключения: 'idle'(проц запущен), 'connected', 'disconnected', 'error'
   // rssExistsStatus: 'not_checked', // Статус проверки сущ-я RSS: 'exists', 'not_exists', 'error'
-  getDataError: {},
-  getData: '',
+  getDataError: [],
+  // getData: '',
   parsingStatus: 'filling', // Статус: 'filling'(заполнение), 'processing', 'failed', 'success'
   parsingError: {},
   UI: {

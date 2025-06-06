@@ -35,9 +35,14 @@ const getData = (inputValue) => {
   return axios
     .get(proxyUrl)
     .then((response) => {
-      watchedState.getData = response.data;
-      watchedState.getDataError = {};
       watchedState.dataFetchStatus = 'success';
+      const responseData = response.data.contents;
+      // const responseUrl = response.data.url;
+      console.log('Response Data:', responseData); // Логируем данные для проверки
+      return responseData;
+      // watchedState.getData = response.data;
+      // watchedState.getDataError = {};
+      // watchedState.dataFetchStatus = 'success';
     })
     .catch((error) => {
       watchedState.getDataError = error.message;
@@ -45,10 +50,10 @@ const getData = (inputValue) => {
     });
 };
 
-const parserData = () => {
+const parserData = (responseData) => {
   try {
     const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(watchedState.getData, 'text/xml');
+    const xmlDoc = parser.parseFromString(responseData, 'text/xml');
     const channel = xmlDoc.querySelector('channel');
     const feedName = channel.querySelector('title')
       ? channel.querySelector('title').textContent
@@ -60,7 +65,7 @@ const parserData = () => {
     const feed = {
       name: feedName,
       description: feedDescription,
-      // url, ?? где взять
+      // url: responseUrl,
       id: uniqueId(),
     };
 

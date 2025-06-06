@@ -19,8 +19,7 @@ const renderGetDataError = () => {
   if (watchedState.dataFetchStatus === 'failed') {
     urlInput.classList.add('text-danger');
     urlInput.classList.remove('text-success');
-    feedback.innerHTML = i18next.t('downloadError');
-  } else {
+    feedback.innerHTML = i18next.t('downloadError'); // } else {
     urlInput.classList.remove('text-danger');
     urlInput.classList.add('text-success');
     feedback.innerHTML = ''; // Убираем сообщение
