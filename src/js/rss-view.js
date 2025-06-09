@@ -8,7 +8,7 @@ const renderErrors = () => {
   const urlInput = document.querySelector('#url-input');
   const feedback = document.querySelector('.feedback');
   if (watchedState.validationStatus === 'invalid') {
-    urlInput.classList.add('text-success', 'text-danger');
+    urlInput.classList.add('text-danger');
     feedback.innerHTML = i18next.t(watchedState.errorKey);
   } else {
     urlInput.classList.remove('text-danger');
@@ -30,11 +30,14 @@ const renderGetDataError = () => {
   }
 };
 
+// let ulPosts; // Внешняя переменная для хранения списка постов
+// let ulFeeds; // Внешняя переменная для хранения списка фидов
+
 const initUI = () => {
   // const urlInput = document.querySelector('#url-input');
   const feedback = document.querySelector('.feedback');
   if (watchedState.parsingStatus === 'failed') {
-    feedback.classList.add('text-success', 'text-danger');
+    feedback.classList.add('text-danger');
     feedback.innerHTML = i18next.t('errorParsing');
   } else if (watchedState.parsingStatus === 'success') {
     feedback.classList.remove('text-danger');
@@ -54,6 +57,7 @@ const initUI = () => {
   titlePosts.textContent = 'Посты';
   cardBodyPosts.appendChild(titlePosts);
   const ulPosts = document.createElement('ul');
+  // ulPosts = document.createElement('ul');
   ulPosts.classList.add('list-group', 'border-0', 'rounded-0');
   wrapPosts.appendChild(ulPosts);
 
@@ -70,36 +74,34 @@ const initUI = () => {
   titleFeeds.textContent = 'Фиды';
   cardBodyFeeds.appendChild(titleFeeds);
   const ulFeeds = document.createElement('ul');
+  // ulFeeds = document.createElement('ul');
   ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
   wrapFeeds.appendChild(ulFeeds);
-
-  return { ulPosts, ulFeeds };
+  // return { ulPosts, ulFeeds };
 };
 
-const renderListRSS = () => {
-  const ulElement = document.querySelector('.posts .card-body ul');
-  // const feedback = document.querySelector('.feedback');
-  // if (watchedState.UI.feeds.includes(watchedState.inputData)) {
-  // feedback.classList.add('text-danger');
-  // feedback.innerHTML = i18next.t('errorUniq');
-  // } else {
-  watchedState.UI.article.forEach((element) => {
-    const li = document.createElement('li');
-    ulElement.appendChild(li);
-    // prettier-ignore
-    li.classList.add(
+const renderListRSS = (ulPosts) => {
+  // const ulElement = document.querySelector('.posts .card-body ul');
+  if (ulPosts) {
+    const articles = watchedState.UI.article;
+    articles.forEach((article) => {
+      const li = document.createElement('li');
+      ulPosts.appendChild(li);
+      // prettier-ignore
+      li.classList.add(
         'list-group-item',
         'd-flex',
         'justify-content-between',
         'align-items-start',
         'border-0',
-        // prettier-ignore
         'border-end-0',
       );
-    li.innerHTML = element.title;
-  });
+      li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>: ${article.description}`;
+    });
+  } else {
+    console.error('Не удалось найти элемент ul для добавления статей.');
+  }
 };
-//};
 // prettier-ignore
 export {
   renderErrors,

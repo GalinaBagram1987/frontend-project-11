@@ -24,8 +24,10 @@ const rssLogic = () => {
         return parsedData;
       })
       .then((parsedData) => {
-        initUI(parsedData);
-        renderListRSS(parsedData);
+        initUI(parsedData, watchedState);
+      })
+      .then((ulPosts) => {
+        renderListRSS(ulPosts);
       })
       .catch((error) => {
         if (
