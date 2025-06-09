@@ -1,5 +1,10 @@
 import { validateUrl, getData, parserData } from './rss-controller.js';
-import { renderErrors, renderGetDataError, renderRSS } from './rss-view.js';
+import {
+  renderErrors,
+  renderGetDataError,
+  initUI,
+  renderListRSS,
+} from './rss-view.js';
 import { watchedState } from './state.js';
 
 const rssLogic = () => {
@@ -13,8 +18,14 @@ const rssLogic = () => {
     validateUrl(inputValue)
       .then(() => getData(inputValue))
       .then((data) => {
-        const parsedData = parserData(data); // Парсим полученные данные
-        renderRSS(parsedData); // Рендерим распарсенные данные
+        const parsedData = parserData(data);
+        console.log('Parsing status:', watchedState.parsingStatus);
+        console.log('Articles:', watchedState.UI.article);
+        return parsedData;
+      })
+      .then((parsedData) => {
+        initUI(parsedData);
+        renderListRSS(parsedData);
       })
       .catch((error) => {
         if (

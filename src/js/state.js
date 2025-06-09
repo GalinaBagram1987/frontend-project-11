@@ -12,7 +12,7 @@ const state = {
   parsingStatus: 'filling', // Статус: 'filling'(заполнение), 'processing', 'failed', 'success'
   parsingError: {},
   UI: {
-    article: {}, // статьи
+    article: [], // статьи
     feeds: [], // поля
   },
 };

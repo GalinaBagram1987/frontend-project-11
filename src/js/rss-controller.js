@@ -13,7 +13,6 @@ const validateUrl = (inputValue) => {
     .then(() => {
       watchedState.validationStatus = 'valid';
       watchedState.errorKey = '';
-      // return true; // Возвращаем true для дальнейшей логики
     })
     .catch((error) => {
       if (error instanceof yup.ValidationError) {
@@ -22,7 +21,6 @@ const validateUrl = (inputValue) => {
         console.log(error.errors);
         watchedState.errorKey = errorKey; // Сохраняем в watchedState
         throw new Error(watchedState.errorKey); // Пробрасываем ошибку дальше
-        // return false;
       }
     });
 };
@@ -38,7 +36,7 @@ const getData = (inputValue) => {
       watchedState.dataFetchStatus = 'success';
       const responseData = response.data.contents;
       // const responseUrl = response.data.url;
-      console.log('Response Data:', responseData); // Логируем данные для проверки
+      // console.log('Response Data:', responseData); // Логируем данные для проверки
       return responseData;
       // watchedState.getData = response.data;
       // watchedState.getDataError = {};
@@ -93,11 +91,12 @@ const parserData = (responseData) => {
         };
       })
       .filter((article) => article);
+    watchedState.parsingStatus = 'success';
     watchedState.UI.article = { articles, ...watchedState.UI.article };
     watchedState.UI.feeds = { feed, ...watchedState.UI.feeds };
   } catch (error) {
-    watchedState.parsingError = error.message;
     watchedState.parsingStatus = 'failed';
+    watchedState.parsingError = error.message;
   }
 };
 
