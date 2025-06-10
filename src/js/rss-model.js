@@ -22,10 +22,10 @@ const rssLogic = () => {
         console.log('Parsing status:', watchedState.parsingStatus);
         console.log('Articles:', watchedState.UI.article);
         return parsedData;
-        console.log(parsedData);
+        // console.log(parsedData);
       })
-      .then((parsedData) => {
-        initUI(parsedData, watchedState);
+      .then(() => {
+        initUI(watchedState);
         renderListRSS(watchedState);
       })
       // .then((watchedState) => {
@@ -37,9 +37,10 @@ const rssLogic = () => {
           Array.isArray(watchedState.getDataError)
           && watchedState.getDataError.includes(error)
         ) {
-          renderGetDataError(); // Выводим сообщение об ошибке
+          renderGetDataError(); // ошибка получения данных
         } else {
-          renderErrors(); // Обработка других возможных ошибок
+          // if (watchedState.validationStatus === 'invalid') {
+          renderErrors(watchedState); // ошибка валидации
         }
       });
   });

@@ -1,10 +1,10 @@
 import i18next from './i18next.js';
-import { watchedState } from './state.js';
+// import { watchedState } from './state.js';
 
 // const urlInput = document.querySelector('#url-input');
 // const feedback = document.querySelector('.feedback');
 
-const renderErrors = () => {
+const renderErrors = (watchedState) => {
   const urlInput = document.querySelector('#url-input');
   const feedback = document.querySelector('.feedback');
   if (watchedState.validationStatus === 'invalid') {
@@ -17,7 +17,7 @@ const renderErrors = () => {
   }
 };
 
-const renderGetDataError = () => {
+const renderGetDataError = (watchedState) => {
   const urlInput = document.querySelector('#url-input');
   const feedback = document.querySelector('.feedback');
   if (watchedState.dataFetchStatus === 'failed') {
@@ -33,7 +33,7 @@ const renderGetDataError = () => {
 // let ulPosts; // Внешняя переменная для хранения списка постов
 // let ulFeeds; // Внешняя переменная для хранения списка фидов
 
-const initUI = () => {
+const initUI = (watchedState) => {
   // const urlInput = document.querySelector('#url-input');
   const feedback = document.querySelector('.feedback');
   if (watchedState.parsingStatus === 'failed') {
@@ -43,6 +43,7 @@ const initUI = () => {
     feedback.classList.remove('text-danger');
     feedback.classList.add('text-success');
     feedback.innerHTML = i18next.t('downloadOk');
+    console.log(feedback);
 
     // posts
     const posts = document.querySelector('.posts');
@@ -82,14 +83,14 @@ const initUI = () => {
   }
 };
 
-const renderListRSS = (state) => {
+const renderListRSS = (watchedState) => {
   const ulPosts = document.querySelector(
     '.posts .card > ul.list-group.border-0.rounded-0'
   );
   console.log(ulPosts);
   if (ulPosts) {
     // const articles = watchedState.UI.article;
-    const articles = state.UI.article;
+    const articles = watchedState.UI.article;
 
     articles.forEach((article) => {
       const li = document.createElement('li');
