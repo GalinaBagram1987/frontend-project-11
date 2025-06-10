@@ -22,13 +22,15 @@ const rssLogic = () => {
         console.log('Parsing status:', watchedState.parsingStatus);
         console.log('Articles:', watchedState.UI.article);
         return parsedData;
+        console.log(parsedData);
       })
       .then((parsedData) => {
         initUI(parsedData, watchedState);
+        renderListRSS(watchedState);
       })
-      .then((ulPosts) => {
-        renderListRSS(ulPosts);
-      })
+      // .then((watchedState) => {
+      //   renderListRSS(paths, watchedState);
+      // })
       .catch((error) => {
         if (
           // prettier-ignore

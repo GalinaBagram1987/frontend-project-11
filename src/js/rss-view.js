@@ -43,47 +43,54 @@ const initUI = () => {
     feedback.classList.remove('text-danger');
     feedback.classList.add('text-success');
     feedback.innerHTML = i18next.t('downloadOk');
-  }
-  // posts
-  const posts = document.querySelector('.posts');
-  const wrapPosts = document.createElement('div');
-  posts.appendChild(wrapPosts);
-  wrapPosts.classList.add('card', 'border-0');
-  const cardBodyPosts = document.createElement('div');
-  cardBodyPosts.classList.add('card-body');
-  wrapPosts.appendChild(cardBodyPosts);
-  const titlePosts = document.createElement('h2');
-  titlePosts.classList.add('card-title', 'h4');
-  titlePosts.textContent = 'Посты';
-  cardBodyPosts.appendChild(titlePosts);
-  const ulPosts = document.createElement('ul');
-  // ulPosts = document.createElement('ul');
-  ulPosts.classList.add('list-group', 'border-0', 'rounded-0');
-  wrapPosts.appendChild(ulPosts);
 
-  // feeds
-  const feeds = document.querySelector('.feeds');
-  const wrapFeeds = document.createElement('div');
-  feeds.appendChild(wrapFeeds);
-  wrapFeeds.classList.add('card', 'border-0');
-  const cardBodyFeeds = document.createElement('div');
-  cardBodyFeeds.classList.add('card-body');
-  wrapFeeds.appendChild(cardBodyFeeds);
-  const titleFeeds = document.createElement('h2');
-  titleFeeds.classList.add('card-title', 'h4');
-  titleFeeds.textContent = 'Фиды';
-  cardBodyFeeds.appendChild(titleFeeds);
-  const ulFeeds = document.createElement('ul');
-  // ulFeeds = document.createElement('ul');
-  ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
-  wrapFeeds.appendChild(ulFeeds);
-  // return { ulPosts, ulFeeds };
+    // posts
+    const posts = document.querySelector('.posts');
+    const wrapPosts = document.createElement('div');
+    posts.appendChild(wrapPosts);
+    wrapPosts.classList.add('card', 'border-0');
+    const cardBodyPosts = document.createElement('div');
+    cardBodyPosts.classList.add('card-body');
+    wrapPosts.appendChild(cardBodyPosts);
+    const titlePosts = document.createElement('h2');
+    titlePosts.classList.add('card-title', 'h4');
+    titlePosts.textContent = 'Посты';
+    cardBodyPosts.appendChild(titlePosts);
+    const ulPosts = document.createElement('ul');
+    ulPosts.classList.add('list-group', 'border-0', 'rounded-0');
+    wrapPosts.appendChild(ulPosts);
+
+    // feeds
+    const feeds = document.querySelector('.feeds');
+    const wrapFeeds = document.createElement('div');
+    feeds.appendChild(wrapFeeds);
+    wrapFeeds.classList.add('card', 'border-0');
+    const cardBodyFeeds = document.createElement('div');
+    cardBodyFeeds.classList.add('card-body');
+    wrapFeeds.appendChild(cardBodyFeeds);
+    const titleFeeds = document.createElement('h2');
+    titleFeeds.classList.add('card-title', 'h4');
+    titleFeeds.textContent = 'Фиды';
+    cardBodyFeeds.appendChild(titleFeeds);
+    const ulFeeds = document.createElement('ul');
+    ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
+    wrapFeeds.appendChild(ulFeeds);
+    // const paths = { ulPosts, ulFeeds };
+    // console.log(paths);
+    // return paths;
+    // renderListRSS(watchedState);
+  }
 };
 
-const renderListRSS = (ulPosts) => {
-  // const ulElement = document.querySelector('.posts .card-body ul');
+const renderListRSS = (state) => {
+  const ulPosts = document.querySelector(
+    '.posts .card > ul.list-group.border-0.rounded-0'
+  );
+  console.log(ulPosts);
   if (ulPosts) {
-    const articles = watchedState.UI.article;
+    // const articles = watchedState.UI.article;
+    const articles = state.UI.article;
+
     articles.forEach((article) => {
       const li = document.createElement('li');
       ulPosts.appendChild(li);
@@ -102,6 +109,7 @@ const renderListRSS = (ulPosts) => {
     console.error('Не удалось найти элемент ul для добавления статей.');
   }
 };
+
 // prettier-ignore
 export {
   renderErrors,
