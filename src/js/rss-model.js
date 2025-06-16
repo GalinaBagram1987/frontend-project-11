@@ -4,6 +4,7 @@ import {
   renderGetDataError,
   initUI,
   renderListRSS,
+  renderParsingError,
 } from './rss-view.js';
 import { watchedState } from './state.js';
 
@@ -26,11 +27,10 @@ const rssLogic = () => {
       })
       .then(() => {
         initUI(watchedState);
+      })
+      .then(() => {
         renderListRSS(watchedState);
       })
-      // .then((watchedState) => {
-      //   renderListRSS(paths, watchedState);
-      // })
       .catch((error) => {
         if (
           // prettier-ignore
@@ -38,9 +38,10 @@ const rssLogic = () => {
           && watchedState.getDataError.includes(error)
         ) {
           renderGetDataError(); // ошибка получения данных
-        } else {
-          // if (watchedState.validationStatus === 'invalid') {
+        } else if (watchedState.validationStatus === 'invalid') {
           renderErrors(watchedState); // ошибка валидации
+        } else if (watchedState.parsingStatus === 'failed') {
+          renderParsingError(watchedState);
         }
       });
   });

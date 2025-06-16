@@ -17,7 +17,10 @@ const validateUrl = (inputValue) => {
     .catch((error) => {
       if (error instanceof yup.ValidationError) {
         watchedState.validationStatus = 'invalid';
-        console.log('watchedState.validationStatus:', watchedState.validationStatus);
+        console.log(
+          'watchedState.validationStatus:',
+          watchedState.validationStatus,
+        );
         const errorKey = error.errors[0];
         console.log(error.errors);
         watchedState.errorKey = errorKey; // Сохраняем в watchedState
@@ -101,5 +104,4 @@ const parserData = (responseData) => {
     watchedState.parsingError = error.message;
   }
 };
-
 export { validateUrl, getData, parserData };

@@ -1,14 +1,17 @@
 import i18next from './i18next.js';
 // import { watchedState } from './state.js';
+// import { watchedState } from './state.js';
 
-// const urlInput = document.querySelector('#url-input');
-// const feedback = document.querySelector('.feedback');
+const urlInput = document.querySelector('#url-input');
+const feedback = document.querySelector('.feedback');
 
 const renderErrors = (watchedState) => {
-  const urlInput = document.querySelector('#url-input');
-  const feedback = document.querySelector('.feedback');
+  // const urlInput = document.querySelector('#url-input');
+  // const feedback = document.querySelector('.feedback');
   if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('text-danger');
+    feedback.classList.remove('text-success');
+    feedback.classList.add('text-danger');
     feedback.innerHTML = i18next.t(watchedState.errorKey);
   } else {
     urlInput.classList.remove('text-danger');
@@ -18,33 +21,33 @@ const renderErrors = (watchedState) => {
 };
 
 const renderGetDataError = (watchedState) => {
-  const urlInput = document.querySelector('#url-input');
-  const feedback = document.querySelector('.feedback');
+  // const urlInput = document.querySelector('#url-input');
+  // const feedback = document.querySelector('.feedback');
   if (watchedState.dataFetchStatus === 'failed') {
     urlInput.classList.add('text-danger');
     urlInput.classList.remove('text-success');
     feedback.innerHTML = i18next.t('downloadError');
-    urlInput.classList.remove('text-danger');
-    urlInput.classList.add('text-success');
-    feedback.innerHTML = '';
   }
 };
 
-// let ulPosts; // Внешняя переменная для хранения списка постов
-// let ulFeeds; // Внешняя переменная для хранения списка фидов
-
-const initUI = (watchedState) => {
-  // const urlInput = document.querySelector('#url-input');
-  const feedback = document.querySelector('.feedback');
+const renderParsingError = (watchedState) => {
   if (watchedState.parsingStatus === 'failed') {
+    urlInput.classList.remove('text-success');
+    urlInput.classList.add('text-danger');
+    feedback.classList.remove('text-success');
     feedback.classList.add('text-danger');
     feedback.innerHTML = i18next.t('errorParsing');
-  } else if (watchedState.parsingStatus === 'success') {
+  }
+};
+
+const initUI = (watchedState) => {
+  if (watchedState.parsingStatus === 'success') {
+    urlInput.classList.remove('text-danger');
+    urlInput.classList.add('text-success');
     feedback.classList.remove('text-danger');
     feedback.classList.add('text-success');
-    feedback.innerHTML = i18next.t('downloadOk');
+    feedback.textContent = i18next.t('downloadOk');
     console.log(feedback);
-
     // posts
     const posts = document.querySelector('.posts');
     const wrapPosts = document.createElement('div');
@@ -76,10 +79,6 @@ const initUI = (watchedState) => {
     const ulFeeds = document.createElement('ul');
     ulFeeds.classList.add('list-group', 'border-0', 'rounded-0');
     wrapFeeds.appendChild(ulFeeds);
-    // const paths = { ulPosts, ulFeeds };
-    // console.log(paths);
-    // return paths;
-    // renderListRSS(watchedState);
   }
 };
 
@@ -90,9 +89,9 @@ const renderListRSS = (watchedState) => {
   console.log(ulPosts);
   if (ulPosts) {
     // const articles = watchedState.UI.article;
-    const articles = watchedState.UI.article;
+    // const [articles] = watchedState.UI.articles;
 
-    articles.forEach((article) => {
+    watchedState.UI.articles.forEach((article) => {
       const li = document.createElement('li');
       ulPosts.appendChild(li);
       // prettier-ignore
@@ -104,7 +103,7 @@ const renderListRSS = (watchedState) => {
         'border-0',
         'border-end-0',
       );
-      li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}</a>: ${article.description}`;
+      li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}: ${article.description}</a>`;
     });
   } else {
     console.error('Не удалось найти элемент ul для добавления статей.');
@@ -117,4 +116,5 @@ export {
   renderGetDataError,
   initUI,
   renderListRSS,
+  renderParsingError,
 };
