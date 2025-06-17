@@ -17,17 +17,14 @@ const validateUrl = (inputValue) => {
     .catch((error) => {
       if (error instanceof yup.ValidationError) {
         watchedState.validationStatus = 'invalid';
-        console.log(
-          'watchedState.validationStatus:',
-          watchedState.validationStatus,
-        );
+        // console.log('watchedState.validationStatus:' watchedState.validationStatus);
         const errorKey = error.errors[0];
         console.log(error.errors);
         watchedState.errorKey = errorKey; // Сохраняем в watchedState
         throw new Error(watchedState.errorKey); // Пробрасываем ошибку дальше
       }
     });
-  console.log(watchedState.validationStatus);
+  // console.log(watchedState.validationStatus);
 };
 
 const getData = (inputValue) => {
@@ -58,12 +55,8 @@ const parserData = (responseData) => {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(responseData, 'text/xml');
     const channel = xmlDoc.querySelector('channel');
-    const feedName = channel.querySelector('title')
-      ? channel.querySelector('title').textContent
-      : '';
-    const feedDescription = channel.querySelector('description')
-      ? channel.querySelector('description').textContent
-      : '';
+    const feedName = channel.querySelector('title') ? channel.querySelector('title').textContent : '';
+    const feedDescription = channel.querySelector('description') ? channel.querySelector('description').textContent : '';
 
     const feed = {
       name: feedName,
@@ -75,15 +68,9 @@ const parserData = (responseData) => {
     const items = channel.querySelectorAll('item');
     const articles = Array.from(items)
       .map((article) => {
-        const articleTitle = article.querySelector('title')
-          ? article.querySelector('title').textContent
-          : '';
-        const articleDescr = article.querySelector('description')
-          ? article.querySelector('description').textContent
-          : '';
-        const articleUrl = article.querySelector('link')
-          ? article.querySelector('link').textContent
-          : '';
+        const articleTitle = article.querySelector('title') ? article.querySelector('title').textContent : '';
+        const articleDescr = article.querySelector('description') ? article.querySelector('description').textContent : '';
+        const articleUrl = article.querySelector('link') ? article.querySelector('link').textContent : '';
         if (!articleUrl) {
           return null;
         }

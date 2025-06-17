@@ -83,14 +83,11 @@ const initUI = (watchedState) => {
 };
 
 const renderListRSS = (watchedState) => {
-  const ulPosts = document.querySelector(
-    '.posts .card > ul.list-group.border-0.rounded-0'
-  );
+  const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0');
   console.log(ulPosts);
   if (ulPosts) {
     // const articles = watchedState.UI.article;
     // const [articles] = watchedState.UI.articles;
-
     watchedState.UI.articles.forEach((article) => {
       const li = document.createElement('li');
       ulPosts.appendChild(li);
