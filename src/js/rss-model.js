@@ -1,4 +1,5 @@
 import { validateUrl, getData, parserData } from './rss-controller.js';
+// prettier-ignore
 import {
   renderErrors,
   renderGetDataError,
@@ -34,8 +35,9 @@ const rssLogic = () => {
       .catch((error) => {
         if (
           // prettier-ignore
-          Array.isArray(watchedState.getDataError)
-          && watchedState.getDataError.includes(error)
+          (Array.isArray(watchedState.getDataError)
+          && watchedState.getDataError.includes(error))
+          || watchedState.dataFetchStatus === 'failed'
         ) {
           renderGetDataError(); // ошибка получения данных
         } else if (watchedState.validationStatus === 'invalid') {

@@ -86,11 +86,14 @@ const renderListRSS = (watchedState) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0');
   console.log(ulPosts);
   if (ulPosts) {
-    // const articles = watchedState.UI.article;
+    const articles = watchedState.UI.article;
     // const [articles] = watchedState.UI.articles;
-    watchedState.UI.articles.forEach((article) => {
+    articles.forEach((article) => {
+      const { title, description, url } = article;
+      console.log(`Title: ${title}`);
+      console.log(`Description: ${description}`);
+      console.log(`URL: ${url}`);
       const li = document.createElement('li');
-      ulPosts.appendChild(li);
       // prettier-ignore
       li.classList.add(
         'list-group-item',
@@ -101,6 +104,7 @@ const renderListRSS = (watchedState) => {
         'border-end-0',
       );
       li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}: ${article.description}</a>`;
+      ulPosts.appendChild(li);
     });
   } else {
     console.error('Не удалось найти элемент ul для добавления статей.');
