@@ -1,4 +1,6 @@
 import i18next from './i18next.js';
+// import { updateData } from './rss-controller.js';
+// import { watchedState } from './state.js';
 // import { watchedState } from './state.js';
 // import { watchedState } from './state.js';
 
@@ -82,12 +84,14 @@ const initUI = (watchedState) => {
   }
 };
 
-const renderListRSS = (watchedState) => {
+const renderListRSS = (state) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0');
   console.log(ulPosts);
   if (ulPosts) {
-    const articles = watchedState.UI.article;
-    // const [articles] = watchedState.UI.articles;
+    const [articles] = state.UI.articles;
+    console.log(`state: ${state}`);
+    console.log(`articles: ${articles}`);
+    console.log(`state.UI.articles: ${state.UI.articles}`);
     articles.forEach((article) => {
       const { title, description, url } = article;
       console.log(`Title: ${title}`);
@@ -103,7 +107,7 @@ const renderListRSS = (watchedState) => {
         'border-0',
         'border-end-0',
       );
-      li.innerHTML = `<a href="${article.url}" target="_blank">${article.title}: ${article.description}</a>`;
+      li.innerHTML = `<a href="${url}" target="_blank">${title}: ${description}</a>`;
       ulPosts.appendChild(li);
     });
   } else {

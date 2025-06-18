@@ -7,7 +7,7 @@ import {
   renderListRSS,
   renderParsingError,
 } from './rss-view.js';
-import { watchedState } from './state.js';
+import { state, watchedState } from './state.js';
 
 const rssLogic = () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
@@ -22,15 +22,16 @@ const rssLogic = () => {
       .then((data) => {
         const parsedData = parserData(data);
         console.log('Parsing status:', watchedState.parsingStatus);
-        console.log('Articles:', watchedState.UI.article);
+        // console.log('Articles:', watchedState.UI.article);
         return parsedData;
         // console.log(parsedData);
       })
       .then(() => {
         initUI(watchedState);
+        console.log('Articles:', watchedState.UI.article);
       })
       .then(() => {
-        renderListRSS(watchedState);
+        renderListRSS(state);
       })
       .catch((error) => {
         if (

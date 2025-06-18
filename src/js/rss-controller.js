@@ -91,4 +91,12 @@ const parserData = (responseData) => {
     watchedState.parsingError = error.message;
   }
 };
-export { validateUrl, getData, parserData };
+
+// const updateData = (state) => state.UI.article;
+// prettier-ignore
+export {
+  validateUrl,
+  getData,
+  parserData,
+  // updateData,
+};
