@@ -135,7 +135,7 @@ const renderFeedRSS = (state) => {
   const ulFeeds = document.querySelector('.feeds .list-group');
   console.log(ulFeeds);
   if (ulFeeds) {
-    const { feed } = state.UI.feeds;
+    const feed = state.UI.feeds;
     console.log(`state: ${JSON.stringify(state)}`);
     console.log(`feed: ${JSON.stringify(feed)}`);
     feed.forEach((item) => {
