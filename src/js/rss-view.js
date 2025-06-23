@@ -135,20 +135,21 @@ const renderFeedRSS = (state) => {
   const ulFeeds = document.querySelector('.feeds .list-group');
   console.log(ulFeeds);
   if (ulFeeds) {
-    const { feeds } = state.UI.feeds;
+    const { feed } = state.UI.feeds;
     console.log(`state: ${JSON.stringify(state)}`);
-    console.log(`feeds: ${JSON.stringify(feeds)}`);
-    feeds.forEach((feed) => {
-      const { name, description } = feed;
+    console.log(`feed: ${JSON.stringify(feed)}`);
+    feed.forEach((item) => {
+      const { name, description } = item;
       const li = document.createElement('li');
       ulFeeds.appendChild(li);
       li.classList.add('list-group-item', 'border-end-0');
       const hFeed = document.createElement('h3');
       li.appendChild(hFeed);
-      hFeed.classList.add('h6, m-0');
+      hFeed.classList.add('h6', 'm-0');
       hFeed.textContent = name;
       const pFeed = document.createElement('p');
-      pFeed.classList.add('m-0, small, text-black-50');
+      li.appendChild(pFeed);
+      pFeed.classList.add('m-0', 'small', 'text-black-50');
       pFeed.textContent = description;
     });
   } else {

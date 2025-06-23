@@ -29,7 +29,8 @@ const rssLogic = () => {
       })
       .then(() => {
         initUI(watchedState);
-        console.log('Articles:', watchedState.UI.articles);
+        // console.log('Articles:', watchedState.UI.articles);
+        console.log('feeds:', watchedState.UI.feeds);
       })
       .then(() => {
         renderListRSS(state);
