@@ -62,7 +62,7 @@ const parserData = (responseData) => {
       name: feedName,
       description: feedDescription,
       // url: responseUrl,
-      id: uniqueId(),
+      // id: uniqueId(),
     };
 
     const items = channel.querySelectorAll('item');
@@ -84,7 +84,7 @@ const parserData = (responseData) => {
       })
       .filter((article) => article);
     watchedState.parsingStatus = 'success';
-    watchedState.UI.article = { articles, ...watchedState.UI.article };
+    watchedState.UI.articles = { articles, ...watchedState.UI.articles };
     watchedState.UI.feeds = { feed, ...watchedState.UI.feeds };
   } catch (error) {
     watchedState.parsingStatus = 'failed';

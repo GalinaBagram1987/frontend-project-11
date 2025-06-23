@@ -6,6 +6,7 @@ import {
   initUI,
   renderListRSS,
   renderParsingError,
+  renderFeedRSS,
 } from './rss-view.js';
 import { state, watchedState } from './state.js';
 
@@ -28,10 +29,11 @@ const rssLogic = () => {
       })
       .then(() => {
         initUI(watchedState);
-        console.log('Articles:', watchedState.UI.article);
+        console.log('Articles:', watchedState.UI.articles);
       })
       .then(() => {
         renderListRSS(state);
+        renderFeedRSS(state);
       })
       .catch((error) => {
         if (

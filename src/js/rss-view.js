@@ -86,18 +86,20 @@ const initUI = (watchedState) => {
 
 const renderListRSS = (state) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0');
-  console.log(ulPosts);
+  // console.log(ulPosts);
   if (ulPosts) {
-    const [articles] = state.UI.articles;
-    console.log(`state: ${state}`);
-    console.log(`articles: ${articles}`);
-    console.log(`state.UI.articles: ${state.UI.articles}`);
+    const { articles } = state.UI.articles;
+    // console.log(`state: ${state}`);
+    // console.log(`articles: ${JSON.stringify(articles)}`);
+    // console.log(`state.UI.articles: ${state.UI.articles}`);
     articles.forEach((article) => {
-      const { title, description, url } = article;
-      console.log(`Title: ${title}`);
-      console.log(`Description: ${description}`);
-      console.log(`URL: ${url}`);
+      // console.log(`article: ${article}`);
+      const { title, url, id } = article;
+      // console.log(`Title: ${title}`);
+      // console.log(`Description: ${description}`);
+      // console.log(`URL: ${url}`);
       const li = document.createElement('li');
+      ulPosts.appendChild(li);
       // prettier-ignore
       li.classList.add(
         'list-group-item',
@@ -107,11 +109,50 @@ const renderListRSS = (state) => {
         'border-0',
         'border-end-0',
       );
-      li.innerHTML = `<a href="${url}" target="_blank">${title}: ${description}</a>`;
-      ulPosts.appendChild(li);
+      const linkRSS = document.createElement('a');
+      li.appendChild(linkRSS);
+      linkRSS.classList.add('fw-bold');
+      linkRSS.href = url;
+      linkRSS.target = '_blank';
+      linkRSS.textContent = title;
+      linkRSS.rel = 'noopener noreferrer';
+
+      const openButton = document.createElement('button');
+      li.appendChild(openButton);
+      openButton.type = 'button';
+      openButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
+      openButton.setAttribute('data-id', id);
+      openButton.setAttribute('data-bs-toggle', 'modal');
+      openButton.setAttribute('data-bs-target', '#modal');
+      openButton.textContent = i18next.t('viewButton');
     });
   } else {
     console.error('Не удалось найти элемент ul для добавления статей.');
+  }
+};
+
+const renderFeedRSS = (state) => {
+  const ulFeeds = document.querySelector('.feeds .list-group');
+  console.log(ulFeeds);
+  if (ulFeeds) {
+    const { feeds } = state.UI.feeds;
+    console.log(`state: ${JSON.stringify(state)}`);
+    console.log(`feeds: ${JSON.stringify(feeds)}`);
+    feeds.forEach((feed) => {
+      const { name, description } = feed;
+      const li = document.createElement('li');
+      ulFeeds.appendChild(li);
+      li.classList.add('list-group-item', 'border-end-0');
+      const hFeed = document.createElement('h3');
+      li.appendChild(hFeed);
+      hFeed.classList.add('h6, m-0');
+      hFeed.textContent = name;
+      const pFeed = document.createElement('p');
+      pFeed.classList.add('m-0, small, text-black-50');
+      pFeed.textContent = description;
+    });
+  } else {
+    console.error('Не удалось найти элемент ul для добавления feeds.');
   }
 };
 
@@ -122,4 +163,5 @@ export {
   initUI,
   renderListRSS,
   renderParsingError,
+  renderFeedRSS,
 };
