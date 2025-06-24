@@ -85,8 +85,8 @@ const parserData = (responseData) => {
       .filter((article) => article);
     watchedState.parsingStatus = 'success';
 
-    watchedState.UI.articles = { articles, ...watchedState.UI.articles };
-    watchedState.UI.feeds = { feed, ...watchedState.UI.feeds };
+    watchedState.UI.articles = { ...articles, ...watchedState.UI.articles };
+    watchedState.UI.feeds = { ...feed, ...watchedState.UI.feeds };
   } catch (error) {
     watchedState.parsingStatus = 'failed';
     watchedState.parsingError = error.message;

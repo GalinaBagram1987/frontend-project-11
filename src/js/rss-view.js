@@ -88,11 +88,12 @@ const renderListRSS = (state) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0');
   // console.log(ulPosts);
   if (ulPosts) {
-    const { articles } = state.UI.articles;
-    // console.log(`state: ${state}`);
-    // console.log(`articles: ${JSON.stringify(articles)}`);
-    // console.log(`state.UI.articles: ${state.UI.articles}`);
-    articles.forEach((article) => {
+    // const { articles } = state.UI.articles;
+    const articlesArray = Object.values(state.UI.articles);
+    console.log(`state: ${state}`);
+    console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
+    console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
+    articlesArray.forEach((article) => {
       // console.log(`article: ${article}`);
       const { title, url, id } = article;
       // console.log(`Title: ${title}`);
@@ -135,22 +136,24 @@ const renderFeedRSS = (state) => {
   const ulFeeds = document.querySelector('.feeds .list-group');
   console.log(ulFeeds);
   if (ulFeeds) {
-    const feed = state.UI.feeds;
+    // const feedsArray = Object.values(state.UI.feeds);
+    const { feeds } = state.UI.feeds;
     console.log(`state: ${JSON.stringify(state)}`);
-    console.log(`feed: ${JSON.stringify(feed)}`);
-    feed.forEach((item) => {
-      const { name, description } = item;
+    console.log(`feeds: ${JSON.stringify(feeds)}`);
+    // console.log(`feedsArray: ${JSON.stringify(feedsArray)}`);
+    feeds.forEach((feed) => {
+      // const { name, description } = feed;
       const li = document.createElement('li');
       ulFeeds.appendChild(li);
       li.classList.add('list-group-item', 'border-end-0');
       const hFeed = document.createElement('h3');
       li.appendChild(hFeed);
       hFeed.classList.add('h6', 'm-0');
-      hFeed.textContent = name;
+      hFeed.textContent = feed.name;
       const pFeed = document.createElement('p');
       li.appendChild(pFeed);
       pFeed.classList.add('m-0', 'small', 'text-black-50');
-      pFeed.textContent = description;
+      pFeed.textContent = feed.description;
     });
   } else {
     console.error('Не удалось найти элемент ul для добавления feeds.');
