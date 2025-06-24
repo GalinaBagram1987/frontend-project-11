@@ -137,23 +137,25 @@ const renderFeedRSS = (state) => {
   console.log(ulFeeds);
   if (ulFeeds) {
     // const feedsArray = Object.values(state.UI.feeds);
-    const { feeds } = state.UI.feeds;
-    console.log(`state: ${JSON.stringify(state)}`);
-    console.log(`feeds: ${JSON.stringify(feeds)}`);
+    const feedsCopy = { ...state.UI.feeds };
+    console.log(`state: ${JSON.stringify(state.UI.feeds)}`);
+    console.log(`feedsCopy: ${JSON.stringify(feedsCopy)}`);
+    // const { keyFeed, valueFeed } = feedsCopy;
     // console.log(`feedsArray: ${JSON.stringify(feedsArray)}`);
-    feeds.forEach((feed) => {
-      // const { name, description } = feed;
+    Object.keys(feedsCopy).forEach((key) => {
+      const feed = feedsCopy[key];
+      const { name, description } = feed;
       const li = document.createElement('li');
       ulFeeds.appendChild(li);
       li.classList.add('list-group-item', 'border-end-0');
       const hFeed = document.createElement('h3');
       li.appendChild(hFeed);
       hFeed.classList.add('h6', 'm-0');
-      hFeed.textContent = feed.name;
+      hFeed.textContent = name;
       const pFeed = document.createElement('p');
       li.appendChild(pFeed);
       pFeed.classList.add('m-0', 'small', 'text-black-50');
-      pFeed.textContent = feed.description;
+      pFeed.textContent = description;
     });
   } else {
     console.error('Не удалось найти элемент ul для добавления feeds.');
