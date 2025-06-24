@@ -29,6 +29,7 @@ const validateUrl = (inputValue) => {
 
 const getData = (inputValue) => {
   watchedState.inputData = inputValue.trim();
+  watchedState.enteredData.push(watchedState.inputData);
   watchedState.dataFetchStatus = 'processing';
   const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
   ${encodeURIComponent(watchedState.inputData.trim())}`;

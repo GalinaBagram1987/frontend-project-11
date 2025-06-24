@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 import { setLocale } from 'yup';
-import { watchedState } from './state.js';
+import { state } from './state.js';
 
 setLocale({
   mixed: {
@@ -18,12 +18,7 @@ const schemaValidate = yup.object().shape({
     .string()
     .url('errorRSS')
     .required()
-    .notOneOf(watchedState.UI.feeds, 'errorUniq')
-    // .test(
-    // 'errorUniq',
-    // 'errorUniq',
-    // (url) => !watchedState.UI.feeds.some((feed) => feed.includes(url)),
-    // )
+    .test('errorUniq', 'errorUniq', (url) => !state.enteredData.includes(url))
     .test('errorRSS', (url) => {
       const rssPattern = /(\.(xml|rss|feed))|((\/feed)|(\/feeds))$/i;
       return rssPattern.test(url);
