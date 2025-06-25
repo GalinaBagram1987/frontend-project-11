@@ -85,7 +85,7 @@ const parserData = (responseData) => {
       .filter((article) => article);
     watchedState.parsingStatus = 'success';
 
-    watchedState.UI.articles = { ...articles, ...watchedState.UI.articles };
+    watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
     // watchedState.UI.feeds = { ...feed, ...watchedState.UI.feeds };
     // watchedState.UI.articles.unshift(articles);
     watchedState.UI.feeds.unshift(feed);

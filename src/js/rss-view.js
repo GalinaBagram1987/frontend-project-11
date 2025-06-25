@@ -52,6 +52,7 @@ const initUI = (watchedState) => {
     console.log(feedback);
     // posts
     const posts = document.querySelector('.posts');
+    posts.innerHTML = '';
     const wrapPosts = document.createElement('div');
     posts.appendChild(wrapPosts);
     wrapPosts.classList.add('card', 'border-0');
@@ -68,6 +69,7 @@ const initUI = (watchedState) => {
 
     // feeds
     const feeds = document.querySelector('.feeds');
+    feeds.innerHTML = '';
     const wrapFeeds = document.createElement('div');
     feeds.appendChild(wrapFeeds);
     wrapFeeds.classList.add('card', 'border-0');
@@ -88,6 +90,7 @@ const renderListRSS = (state) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0');
   // console.log(ulPosts);
   if (ulPosts) {
+    ulPosts.innerHTML = '';
     // const { articles } = state.UI.articles;
     const articlesArray = Object.values(state.UI.articles);
     console.log(`state: ${state}`);
@@ -136,6 +139,7 @@ const renderFeedRSS = (state) => {
   const ulFeeds = document.querySelector('.feeds .list-group');
   console.log(ulFeeds);
   if (ulFeeds) {
+    ulFeeds.innerHTML = '';
     // const feedsArray = Object.values(state.UI.feeds);
     const feedsCopy = { ...state.UI.feeds };
     console.log(`state: ${JSON.stringify(state.UI.feeds)}`);
