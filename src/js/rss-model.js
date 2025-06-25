@@ -1,4 +1,10 @@
-import { validateUrl, getData, parserData } from './rss-controller.js';
+// prettier-ignore
+import {
+  validateUrl,
+  getData,
+  // parserData,
+  updateStateWithParserData,
+} from './rss-controller.js';
 // prettier-ignore
 import {
   renderErrors,
@@ -21,11 +27,14 @@ const rssLogic = () => {
     validateUrl(inputValue)
       .then(() => getData(inputValue))
       .then((data) => {
-        const parsedData = parserData(data);
-        console.log('Parsing status:', watchedState.parsingStatus);
+        // const parsedData = parserData(data);
+        // console.log('Parsing status:', watchedState.parsingStatus);
         // console.log('Articles:', watchedState.UI.article);
-        return parsedData;
+        // return parsedData;
         // console.log(parsedData);
+        // })
+        // .then(() => {
+        updateStateWithParserData(data);
       })
       .then(() => {
         initUI(watchedState);

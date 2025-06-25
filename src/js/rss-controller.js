@@ -83,16 +83,24 @@ const parserData = (responseData) => {
         };
       })
       .filter((article) => article);
-    watchedState.parsingStatus = 'success';
-
-    watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
-    // watchedState.UI.feeds = { ...feed, ...watchedState.UI.feeds };
-    // watchedState.UI.articles.unshift(articles);
-    watchedState.UI.feeds.unshift(feed);
+    // watchedState.parsingStatus = 'success';
+    // watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
+    // watchedState.UI.feeds.unshift(feed);
+    return { articles, feeds: [feed] };
   } catch (error) {
     watchedState.parsingStatus = 'failed';
     watchedState.parsingError = error.message;
+    return null;
   }
+};
+
+const updateStateWithParserData = (responseData) => {
+  const parsData = parserData(responseData);
+  const { articles, feeds } = parsData;
+
+  watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
+  watchedState.UI.feeds.unshift(feeds[0]);
+  watchedState.parsingStatus = 'success';
 };
 
 // const updateData = (state) => state.UI.article;
@@ -101,5 +109,6 @@ export {
   validateUrl,
   getData,
   parserData,
+  updateStateWithParserData,
   // updateData,
 };
