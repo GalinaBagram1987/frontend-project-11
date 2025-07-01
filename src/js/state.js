@@ -10,6 +10,8 @@ const state = {
   // rssExistsStatus: 'not_checked', // Статус проверки сущ-я RSS: 'exists', 'not_exists', 'error'
   getDataError: [],
   // getData: '',
+  updateFetchStatus: 'filling', // Статус получения данных: 'filling'(заполнение), 'processing', 'failed', 'success'
+  updateStatus: 'filling', // Статус: 'filling'(заполнение), 'processing', 'failed', 'success'
   parsingStatus: 'filling', // Статус: 'filling'(заполнение), 'processing', 'failed', 'success'
   parsingError: {},
   UI: {

@@ -4,6 +4,7 @@ import {
   getData,
   // parserData,
   updateStateWithParserData,
+  updateRssData,
 } from './rss-controller.js';
 // prettier-ignore
 import {
@@ -20,6 +21,19 @@ const rssLogic = () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
   const input = document.querySelector('#url-input'); // Находим инпут по ID
 
+  const updateData = () => {
+    updateRssData(state)
+      .then(() => {
+        renderListRSS(state);
+        setTimeout(updateData, 5000);
+      })
+      .catch((error) => {
+        console.error('Ошибка обновления данных:', error);
+        setTimeout(updateData, 5000);
+      });
+    // setTimeout(updateData, 5000); // повторный вызов через 5 секунд
+  };
+
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     // const inputValue = event.target.value;
@@ -27,13 +41,6 @@ const rssLogic = () => {
     validateUrl(inputValue)
       .then(() => getData(inputValue))
       .then((data) => {
-        // const parsedData = parserData(data);
-        // console.log('Parsing status:', watchedState.parsingStatus);
-        // console.log('Articles:', watchedState.UI.article);
-        // return parsedData;
-        // console.log(parsedData);
-        // })
-        // .then(() => {
         updateStateWithParserData(data);
       })
       .then(() => {
@@ -45,6 +52,19 @@ const rssLogic = () => {
         renderListRSS(state);
         renderFeedRSS(state);
       })
+      // .then(() => {
+      //   const updateData = () => {
+      //     updateRssData(state)
+      //       .then(() => {
+      //         renderListRSS(state);
+      //       })
+      //       .catch((error) => {
+      //         console.error('Ошибка обновления данных:', error);
+      //       });
+      //   };
+      //   setTimeout(updateData, 5000);
+      //   updateData(); // начиная обновление данных
+      // })
       .catch((error) => {
         if (
           // prettier-ignore
@@ -59,7 +79,12 @@ const rssLogic = () => {
           renderParsingError(watchedState);
         }
       });
+    // updateData();
   });
+  // .then(() => {
+  //   updateData();
+  // });
+  updateData();
 };
 
 export default rssLogic;

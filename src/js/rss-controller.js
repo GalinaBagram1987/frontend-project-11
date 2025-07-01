@@ -5,6 +5,8 @@ import schemaValidate from './schemaForValidate.js';
 
 import { watchedState } from './state.js';
 
+// получение данных
+
 const validateUrl = (inputValue) => {
   watchedState.inputData = inputValue;
 
@@ -103,12 +105,44 @@ const updateStateWithParserData = (responseData) => {
   watchedState.parsingStatus = 'success';
 };
 
-// const updateData = (state) => state.UI.article;
+// обновление данных каждые 5 сек
+
+const checkNewRSS = (responseData, state) => {
+  const copyArticles = state.UI.articles;
+  const existingArticles = Object.values(copyArticles).map((article) => article.url);
+  // const existingArticles = state.UI.articles.map((article) => article.url);
+  // хранилище уникальных url
+  console.log(`existingArticles: ${JSON.stringify(existingArticles)}`);
+  const parseData = parserData(responseData);
+  const { articles } = parseData;
+  console.log(`articles: ${JSON.stringify(articles)}`);
+  const newArticles = articles.filter((item) => !existingArticles.includes(item.url));
+  console.log(`newArticles: ${JSON.stringify(newArticles)}`);
+  // фильр дынных не включ статьи
+  if (newArticles.length > 0) {
+    state.UI.articles.unshift(...newArticles); // Добавляем новые статьи в начало
+  }
+};
+
+const updateRssData = (state) => {
+  const feeds = state.enteredData;
+  console.log(`feeds: ${JSON.stringify(feeds)}`);
+  feeds.forEach((feedUrl) => {
+    getData(feedUrl)
+      .then((responseData) => {
+        checkNewRSS(responseData, state);
+      })
+      .catch((error) => {
+        console.error('Ошибка получения данных для RSS:', error);
+      });
+  });
+};
+
 // prettier-ignore
 export {
   validateUrl,
   getData,
   parserData,
   updateStateWithParserData,
-  // updateData,
+  updateRssData,
 };
