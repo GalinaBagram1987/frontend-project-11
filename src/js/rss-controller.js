@@ -60,10 +60,12 @@ const parserData = (responseData) => {
     const channel = xmlDoc.querySelector('channel');
     const feedName = channel.querySelector('title') ? channel.querySelector('title').textContent : '';
     const feedDescription = channel.querySelector('description') ? channel.querySelector('description').textContent : '';
+    const feedUrl = channel.querySelector('link') ? channel.querySelector('link').textContent : '';
 
     const feed = {
       name: feedName,
       description: feedDescription,
+      url: feedUrl,
       id: uniqueId(),
     };
 
@@ -124,18 +126,30 @@ const checkNewRSS = (responseData, state) => {
   }
 };
 
-const updateRssData = (state) => {
-  const feeds = state.enteredData;
+const updateRssData = async (state) => {
+  // const feeds = [...state.UI.feeds];
+  const feeds = [...state.enteredData];
   console.log(`feeds: ${JSON.stringify(feeds)}`);
-  feeds.forEach((feedUrl) => {
-    getData(feedUrl)
-      .then((responseData) => {
-        checkNewRSS(responseData, state);
-      })
-      .catch((error) => {
-        console.error('Ошибка получения данных для RSS:', error);
-      });
+  const fetchPromises = feeds.map(async (feedUrl) => {
+    try {
+      const responseData = await getData(feedUrl);
+      return responseData;
+    } catch (error) {
+      console.error('Ошибка получения данных для RSS:', error);
+      return null; // Возвращаем null в случае ошибки
+    }
   });
+
+  // const fetchPromises = feeds.map((feedUrl) => getData(feedUrl).catch((error) => {
+  //   console.error('Ошибка получения данных для RSS:', error);
+  // }));
+  const responseDataArray = await Promise.all(fetchPromises);
+
+  responseDataArray.forEach((responseData) => {
+    checkNewRSS(responseData, state);
+  });
+
+  await Promise.all((resolve) => setTimeout(resolve, 5000));
 };
 
 // prettier-ignore

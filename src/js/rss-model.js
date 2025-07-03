@@ -17,22 +17,9 @@ import {
 } from './rss-view.js';
 import { state, watchedState } from './state.js';
 
-const rssLogic = () => {
+const rssLogic = async () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
   const input = document.querySelector('#url-input'); // Находим инпут по ID
-
-  const updateData = () => {
-    updateRssData(state)
-      .then(() => {
-        renderListRSS(state);
-        setTimeout(updateData, 5000);
-      })
-      .catch((error) => {
-        console.error('Ошибка обновления данных:', error);
-        setTimeout(updateData, 5000);
-      });
-    // setTimeout(updateData, 5000); // повторный вызов через 5 секунд
-  };
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -52,19 +39,11 @@ const rssLogic = () => {
         renderListRSS(state);
         renderFeedRSS(state);
       })
-      // .then(() => {
-      //   const updateData = () => {
-      //     updateRssData(state)
-      //       .then(() => {
-      //         renderListRSS(state);
-      //       })
-      //       .catch((error) => {
-      //         console.error('Ошибка обновления данных:', error);
-      //       });
-      //   };
-      //   setTimeout(updateData, 5000);
-      //   updateData(); // начиная обновление данных
-      // })
+      .then(() => {
+        console.log('enteredData:', state.enteredData);
+        updateRssData();
+        renderListRSS();
+      })
       .catch((error) => {
         if (
           // prettier-ignore
@@ -79,12 +58,7 @@ const rssLogic = () => {
           renderParsingError(watchedState);
         }
       });
-    // updateData();
   });
-  // .then(() => {
-  //   updateData();
-  // });
-  updateData();
 };
 
 export default rssLogic;
