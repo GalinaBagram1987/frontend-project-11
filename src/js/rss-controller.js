@@ -167,11 +167,11 @@ const updateRssData = async (state) => {
   });
 };
 
-const updateRss = (state) => {
-  setTimeout(() => {
-    updateRssData(state);
-  }, 5000);
-};
+// const updateRss = (state) => {
+//   setTimeout(() => {
+//     updateRssData(state);
+//   }, 5000);
+// };
 
 // prettier-ignore
 export {
@@ -179,5 +179,5 @@ export {
   getData,
   parserData,
   updateStateWithParserData,
-  updateRss,
+  updateRssData,
 };
