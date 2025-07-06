@@ -60,12 +60,12 @@ const parserData = (responseData) => {
     const channel = xmlDoc.querySelector('channel');
     const feedName = channel.querySelector('title') ? channel.querySelector('title').textContent : '';
     const feedDescription = channel.querySelector('description') ? channel.querySelector('description').textContent : '';
-    const feedUrl = channel.querySelector('link') ? channel.querySelector('link').textContent : '';
+    // const feedUrl = channel.querySelector('link') ? channel.querySelector('link').textContent : '';
 
     const feed = {
       name: feedName,
       description: feedDescription,
-      url: feedUrl,
+      // url: feedUrl,
       id: uniqueId(),
     };
 
@@ -112,44 +112,65 @@ const updateStateWithParserData = (responseData) => {
 const checkNewRSS = (responseData, state) => {
   const copyArticles = state.UI.articles;
   const existingArticles = Object.values(copyArticles).map((article) => article.url);
-  // const existingArticles = state.UI.articles.map((article) => article.url);
   // хранилище уникальных url
-  console.log(`existingArticles: ${JSON.stringify(existingArticles)}`);
-  const parseData = parserData(responseData);
-  const { articles } = parseData;
+  // console.log(`existingArticles: ${JSON.stringify(existingArticles)}`);
+  const parsData = parserData(responseData);
+  // console.log(`parsData: ${JSON.stringify(parsData)}`);
+  const articles = { ...parsData };
   console.log(`articles: ${JSON.stringify(articles)}`);
-  const newArticles = articles.filter((item) => !existingArticles.includes(item.url));
+  const newArticles = articles.articles.filter((item) => !existingArticles.includes(item.url));
   console.log(`newArticles: ${JSON.stringify(newArticles)}`);
   // фильр дынных не включ статьи
   if (newArticles.length > 0) {
-    state.UI.articles.unshift(...newArticles); // Добавляем новые статьи в начало
+    state.UI.articles.articles.unshift(...newArticles); // Добавляем новые статьи в начало
   }
 };
 
 const updateRssData = async (state) => {
+  // const { feeds } = state.UI.feeds;
   // const feeds = [...state.UI.feeds];
   const feeds = [...state.enteredData];
   console.log(`feeds: ${JSON.stringify(feeds)}`);
-  const fetchPromises = feeds.map(async (feedUrl) => {
-    try {
-      const responseData = await getData(feedUrl);
-      return responseData;
-    } catch (error) {
-      console.error('Ошибка получения данных для RSS:', error);
-      return null; // Возвращаем null в случае ошибки
-    }
+  const fetchPromises = feeds.map((feedUrl) => {
+    // console.log(`feed: ${JSON.stringify(feed)}`);
+    // const feedUrl = feed.url;
+    console.log(`feedUrl: ${JSON.stringify(feedUrl)}`);
+    watchedState.dataFetchStatus = 'processing';
+    const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
+      ${encodeURIComponent(feedUrl)}`;
+    return axios
+      .get(proxyUrl)
+      .then((response) => {
+        watchedState.dataFetchStatus = 'success';
+        const responseData = response.data.contents;
+        // const responseUrl = response.data.url;
+        // console.log('Response Data:', responseData); // Логируем данные для проверки
+        return responseData;
+        // watchedState.getData = response.data;
+        // watchedState.getDataError = {};
+        // watchedState.dataFetchStatus = 'success';
+      })
+      .catch((error) => {
+        watchedState.getDataError = error.message;
+        watchedState.dataFetchStatus = 'failed';
+        return null;
+      });
   });
-
-  // const fetchPromises = feeds.map((feedUrl) => getData(feedUrl).catch((error) => {
-  //   console.error('Ошибка получения данных для RSS:', error);
-  // }));
+  // console.log('fetchPromises:', fetchPromises);
   const responseDataArray = await Promise.all(fetchPromises);
+  console.log('responseDataArray:', responseDataArray);
 
   responseDataArray.forEach((responseData) => {
-    checkNewRSS(responseData, state);
+    if (responseData) {
+      checkNewRSS(responseData, state);
+    }
   });
+};
 
-  await Promise.all((resolve) => setTimeout(resolve, 5000));
+const updateRss = (state) => {
+  setTimeout(() => {
+    updateRssData(state);
+  }, 5000);
 };
 
 // prettier-ignore
@@ -158,5 +179,5 @@ export {
   getData,
   parserData,
   updateStateWithParserData,
-  updateRssData,
+  updateRss,
 };

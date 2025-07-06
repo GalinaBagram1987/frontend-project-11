@@ -4,7 +4,7 @@ import {
   getData,
   // parserData,
   updateStateWithParserData,
-  updateRssData,
+  updateRss,
 } from './rss-controller.js';
 // prettier-ignore
 import {
@@ -38,12 +38,23 @@ const rssLogic = async () => {
       .then(() => {
         renderListRSS(state);
         renderFeedRSS(state);
+        return updateRss(state);
       })
       .then(() => {
         console.log('enteredData:', state.enteredData);
-        updateRssData();
-        renderListRSS();
+        renderListRSS(state);
       })
+      // .then(() => {
+      //   setTimeout(() => {
+      //     updateRssData(state)
+      //       .then(() => {
+      //         renderListRSS(state);
+      //       })
+      //       .catch((error) => {
+      //         console.error('error update:', error);
+      //       });
+      //   }, 5000);
+      // })
       .catch((error) => {
         if (
           // prettier-ignore
