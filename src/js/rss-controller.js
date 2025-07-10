@@ -157,7 +157,9 @@ const updateRssData = async (state) => {
       });
   });
   // console.log('fetchPromises:', fetchPromises);
-  const responseDataArray = await Promise.all(fetchPromises);
+  const responseDataArray = await Promise.all(fetchPromises).finally(() => {
+    setTimeout(() => updateRssData(state), 5000);
+  });
   console.log('responseDataArray:', responseDataArray);
 
   responseDataArray.forEach((responseData) => {
