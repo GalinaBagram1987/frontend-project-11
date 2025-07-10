@@ -38,23 +38,15 @@ const rssLogic = async () => {
       .then(() => {
         renderListRSS(state);
         renderFeedRSS(state);
-        // return updateRss(state);
+        updateRssData(state)
+          .then(() => {
+            console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
+            renderListRSS(state);
+          })
+          .catch((error) => {
+            console.error('error update:', error);
+          });
       })
-      // .then(() => {
-      //   console.log('enteredData:', state.enteredData);
-      //   renderListRSS(state);
-      // })
-      // .then(() => {
-      //   setTimeout(() => {
-      //     updateRssData(state)
-      //       .then(() => {
-      //         renderListRSS(state);
-      //       })
-      //       .catch((error) => {
-      //         console.error('error update:', error);
-      //       });
-      //   }, 5000);
-      // })
       .catch((error) => {
         if (
           // prettier-ignore
@@ -69,17 +61,6 @@ const rssLogic = async () => {
           renderParsingError(watchedState);
         }
       });
-    // updateRss(state).then(() => renderListRSS(state));
-    setTimeout(() => {
-      updateRssData(state)
-        .then(() => {
-          renderListRSS(state);
-        })
-        .catch((error) => {
-          console.error('error update:', error);
-        });
-    }, 5000);
-    // updateRssData(state);
   });
 };
 

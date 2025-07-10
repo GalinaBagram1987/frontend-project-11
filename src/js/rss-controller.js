@@ -60,7 +60,6 @@ const parserData = (responseData) => {
     const channel = xmlDoc.querySelector('channel');
     const feedName = channel.querySelector('title') ? channel.querySelector('title').textContent : '';
     const feedDescription = channel.querySelector('description') ? channel.querySelector('description').textContent : '';
-    // const feedUrl = channel.querySelector('link') ? channel.querySelector('link').textContent : '';
 
     const feed = {
       name: feedName,
@@ -117,24 +116,34 @@ const checkNewRSS = (responseData, state) => {
   const parsData = parserData(responseData);
   // console.log(`parsData: ${JSON.stringify(parsData)}`);
   const articles = { ...parsData };
-  console.log(`articles: ${JSON.stringify(articles)}`);
+  // console.log(`articles: ${JSON.stringify(articles)}`);
   const newArticles = articles.articles.filter((item) => !existingArticles.includes(item.url));
   console.log(`newArticles: ${JSON.stringify(newArticles)}`);
   // фильр дынных не включ статьи
   if (newArticles.length > 0) {
-    state.UI.articles.articles.unshift(...newArticles); // Добавляем новые статьи в начало
+    newArticles.forEach((article) => {
+      copyArticles[article.id] = article; // Добавляем новый объект
+      console.log(`copyArticles: ${JSON.stringify(copyArticles)}`);
+    });
+    return {
+      ...state,
+      UI: {
+        ...state.UI,
+        articles: copyArticles,
+      },
+    };
   }
+  return state;
 };
 
 const updateRssData = async (state) => {
   // const { feeds } = state.UI.feeds;
   // const feeds = [...state.UI.feeds];
   const feeds = [...state.enteredData];
-  console.log(`feeds: ${JSON.stringify(feeds)}`);
+  // console.log(`feeds: ${JSON.stringify(feeds)}`);
   const fetchPromises = feeds.map((feedUrl) => {
     // console.log(`feed: ${JSON.stringify(feed)}`);
-    // const feedUrl = feed.url;
-    console.log(`feedUrl: ${JSON.stringify(feedUrl)}`);
+    // console.log(`feedUrl: ${JSON.stringify(feedUrl)}`);
     watchedState.dataFetchStatus = 'processing';
     const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
       ${encodeURIComponent(feedUrl)}`;
@@ -143,8 +152,7 @@ const updateRssData = async (state) => {
       .then((response) => {
         watchedState.dataFetchStatus = 'success';
         const responseData = response.data.contents;
-        // const responseUrl = response.data.url;
-        // console.log('Response Data:', responseData); // Логируем данные для проверки
+        // console.log('Response Data:', responseData);
         return responseData;
         // watchedState.getData = response.data;
         // watchedState.getDataError = {};
@@ -156,11 +164,10 @@ const updateRssData = async (state) => {
         return null;
       });
   });
-  // console.log('fetchPromises:', fetchPromises);
   const responseDataArray = await Promise.all(fetchPromises).finally(() => {
     setTimeout(() => updateRssData(state), 5000);
   });
-  console.log('responseDataArray:', responseDataArray);
+  // console.log('responseDataArray:', responseDataArray);
 
   responseDataArray.forEach((responseData) => {
     if (responseData) {
@@ -168,12 +175,6 @@ const updateRssData = async (state) => {
     }
   });
 };
-
-// const updateRss = (state) => {
-//   setTimeout(() => {
-//     updateRssData(state);
-//   }, 5000);
-// };
 
 // prettier-ignore
 export {
