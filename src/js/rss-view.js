@@ -46,6 +46,7 @@ const initUI = (watchedState) => {
   if (watchedState.parsingStatus === 'success') {
     urlInput.classList.remove('text-danger');
     urlInput.classList.add('text-success');
+    urlInput.value = '';
     feedback.classList.remove('text-danger');
     feedback.classList.add('text-success');
     feedback.textContent = i18next.t('downloadOk');

@@ -122,16 +122,20 @@ const checkNewRSS = (responseData, state) => {
   // фильр дынных не включ статьи
   if (newArticles.length > 0) {
     newArticles.forEach((article) => {
-      copyArticles[article.id] = article; // Добавляем новый объект
+      // copyArticles[article.id] = article; // Добавляем новый объект
+      state.UI.articles = { ...article, ...copyArticles };
       console.log(`copyArticles: ${JSON.stringify(copyArticles)}`);
     });
-    return {
-      ...state,
-      UI: {
-        ...state.UI,
-        articles: copyArticles,
-      },
-    };
+    return copyArticles; // {
+    // ...state,
+    // UI: {
+    //   // ...state.UI,
+    //   articles: copyArticles,
+    // },
+    // };
+    // return {
+    //   watchedState.UI.articles = copyArticles;
+    // }
   }
   return state;
 };
