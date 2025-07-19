@@ -38,14 +38,14 @@ const rssLogic = async () => {
       .then(() => {
         renderListRSS(state);
         renderFeedRSS(state);
-        updateRssData(state)
-          .then(() => {
-            console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
-            renderListRSS(state);
-          })
-          .catch((error) => {
-            console.error('error update:', error);
-          });
+        // updateRssData()
+        //   .then(() => {
+        //     renderListRSS(state);
+        //     console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
+        //   })
+        //   .catch((error) => {
+        //     console.error('error update:', error);
+        //   });
       })
       .catch((error) => {
         if (
@@ -62,6 +62,14 @@ const rssLogic = async () => {
         }
       });
   });
+  updateRssData()
+    .then(() => {
+      renderListRSS(watchedState);
+      console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
+    })
+    .catch((error) => {
+      console.error('error update:', error);
+    });
 };
 
 export default rssLogic;

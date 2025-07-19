@@ -1,6 +1,6 @@
 import axios from 'axios';
 import * as yup from 'yup';
-import { uniqueId } from 'lodash';
+import { uniqueId, differenceWith } from 'lodash';
 import schemaValidate from './schemaForValidate.js';
 
 import { watchedState } from './state.js';
@@ -101,53 +101,24 @@ const updateStateWithParserData = (responseData) => {
   const parsData = parserData(responseData);
   const { articles, feeds } = parsData;
 
-  watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
+  // watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
+  watchedState.UI.articles = watchedState.UI.articles.concat(articles);
   watchedState.UI.feeds.unshift(feeds[0]);
   watchedState.parsingStatus = 'success';
 };
 
 // обновление данных каждые 5 сек
 
-const checkNewRSS = (responseData, state) => {
-  const copyArticles = state.UI.articles;
-  const existingArticles = Object.values(copyArticles).map((article) => article.url);
-  // хранилище уникальных url
-  // console.log(`existingArticles: ${JSON.stringify(existingArticles)}`);
-  const parsData = parserData(responseData);
-  // console.log(`parsData: ${JSON.stringify(parsData)}`);
-  const articles = { ...parsData };
-  // console.log(`articles: ${JSON.stringify(articles)}`);
-  const newArticles = articles.articles.filter((item) => !existingArticles.includes(item.url));
-  console.log(`newArticles: ${JSON.stringify(newArticles)}`);
-  // фильр дынных не включ статьи
-  if (newArticles.length > 0) {
-    newArticles.forEach((article) => {
-      // copyArticles[article.id] = article; // Добавляем новый объект
-      state.UI.articles = { ...article, ...copyArticles };
-      console.log(`copyArticles: ${JSON.stringify(copyArticles)}`);
-    });
-    return copyArticles; // {
-    // ...state,
-    // UI: {
-    //   // ...state.UI,
-    //   articles: copyArticles,
-    // },
-    // };
-    // return {
-    //   watchedState.UI.articles = copyArticles;
-    // }
-  }
-  return state;
-};
-
-const updateRssData = async (state) => {
+const updateRssData = async () => {
   // const { feeds } = state.UI.feeds;
   // const feeds = [...state.UI.feeds];
-  const feeds = [...state.enteredData];
+  const feeds = [...watchedState.enteredData];
+  console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
   // console.log(`feeds: ${JSON.stringify(feeds)}`);
   const fetchPromises = feeds.map((feedUrl) => {
     // console.log(`feed: ${JSON.stringify(feed)}`);
     // console.log(`feedUrl: ${JSON.stringify(feedUrl)}`);
+
     watchedState.dataFetchStatus = 'processing';
     const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
       ${encodeURIComponent(feedUrl)}`;
@@ -155,12 +126,27 @@ const updateRssData = async (state) => {
       .get(proxyUrl)
       .then((response) => {
         watchedState.dataFetchStatus = 'success';
-        const responseData = response.data.contents;
-        // console.log('Response Data:', responseData);
-        return responseData;
-        // watchedState.getData = response.data;
-        // watchedState.getDataError = {};
-        // watchedState.dataFetchStatus = 'success';
+        const feedData = parserData(response.data.contents);
+        // console.log(`feedData: ${JSON.stringify(feedData)}`);
+        // prettier-ignore
+        const allNewArticles = feedData.articles
+          .map((article) => ({ ...article, channelId: article.feedId }));
+        // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
+        // console.log(`allNewArticles: ${JSON.stringify(allNewArticles)}`);
+        // prettier-ignore
+        const oldArticles = Object.values(watchedState.UI.articles)
+          .filter((article) => article.feedId);
+        // console.log(`oldArticles: ${JSON.stringify(oldArticles)}`);
+        // prettier-ignore
+        const newArticles = differenceWith(allNewArticles, oldArticles, (art1, art2) => art1.title === art2.title)
+          .map((article) => ({ ...article, id: uniqueId() }));
+        console.log(`newArticles: ${JSON.stringify(newArticles)}`);
+        if (newArticles.length > 0) {
+          newArticles.forEach((article) => {
+            watchedState.UI.articles.unshift(article);
+            console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
+          });
+        }
       })
       .catch((error) => {
         watchedState.getDataError = error.message;
@@ -168,15 +154,8 @@ const updateRssData = async (state) => {
         return null;
       });
   });
-  const responseDataArray = await Promise.all(fetchPromises).finally(() => {
-    setTimeout(() => updateRssData(state), 5000);
-  });
-  // console.log('responseDataArray:', responseDataArray);
-
-  responseDataArray.forEach((responseData) => {
-    if (responseData) {
-      checkNewRSS(responseData, state);
-    }
+  await Promise.all(fetchPromises).finally(() => {
+    setTimeout(() => updateRssData(watchedState), 5000);
   });
 };
 
