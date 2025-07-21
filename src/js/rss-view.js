@@ -8,8 +8,6 @@ const urlInput = document.querySelector('#url-input');
 const feedback = document.querySelector('.feedback');
 
 const renderErrors = (watchedState) => {
-  // const urlInput = document.querySelector('#url-input');
-  // const feedback = document.querySelector('.feedback');
   if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('text-danger');
     feedback.classList.remove('text-success');
@@ -23,8 +21,6 @@ const renderErrors = (watchedState) => {
 };
 
 const renderGetDataError = (watchedState) => {
-  // const urlInput = document.querySelector('#url-input');
-  // const feedback = document.querySelector('.feedback');
   if (watchedState.dataFetchStatus === 'failed') {
     urlInput.classList.add('text-danger');
     urlInput.classList.remove('text-success');
@@ -92,7 +88,6 @@ const renderListRSS = (state) => {
   // console.log(ulPosts);
   if (ulPosts) {
     ulPosts.innerHTML = '';
-    // const { articles } = state.UI.articles;
     const articlesArray = Object.values(state.UI.articles);
     console.log(`state: ${state}`);
     console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
@@ -141,9 +136,8 @@ const renderFeedRSS = (state) => {
   console.log(ulFeeds);
   if (ulFeeds) {
     ulFeeds.innerHTML = '';
-    // const feedsArray = Object.values(state.UI.feeds);
-    const feedsCopy = { ...state.UI.feeds };
-    console.log(`state: ${JSON.stringify(state.UI.feeds)}`);
+    const feedsCopy = [...state.UI.feeds];
+    console.log(`statefeeds: ${JSON.stringify(state.UI.feeds)}`);
     console.log(`feedsCopy: ${JSON.stringify(feedsCopy)}`);
     // const { keyFeed, valueFeed } = feedsCopy;
     // console.log(`feedsArray: ${JSON.stringify(feedsArray)}`);

@@ -86,9 +86,6 @@ const parserData = (responseData) => {
         };
       })
       .filter((article) => article);
-    // watchedState.parsingStatus = 'success';
-    // watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
-    // watchedState.UI.feeds.unshift(feed);
     return { articles, feeds: [feed] };
   } catch (error) {
     watchedState.parsingStatus = 'failed';
@@ -101,7 +98,6 @@ const updateStateWithParserData = (responseData) => {
   const parsData = parserData(responseData);
   const { articles, feeds } = parsData;
 
-  // watchedState.UI.articles = { ...watchedState.UI.articles, ...articles };
   watchedState.UI.articles = watchedState.UI.articles.concat(articles);
   watchedState.UI.feeds.unshift(feeds[0]);
   watchedState.parsingStatus = 'success';
@@ -110,8 +106,6 @@ const updateStateWithParserData = (responseData) => {
 // обновление данных каждые 5 сек
 
 const updateRssData = async () => {
-  // const { feeds } = state.UI.feeds;
-  // const feeds = [...state.UI.feeds];
   const feeds = [...watchedState.enteredData];
   console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
   // console.log(`feeds: ${JSON.stringify(feeds)}`);
@@ -144,6 +138,7 @@ const updateRssData = async () => {
         if (newArticles.length > 0) {
           newArticles.forEach((article) => {
             watchedState.UI.articles.unshift(article);
+            watchedState.updateStatus = 'success';
             console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
           });
         }
@@ -151,7 +146,6 @@ const updateRssData = async () => {
       .catch((error) => {
         watchedState.getDataError = error.message;
         watchedState.dataFetchStatus = 'failed';
-        return null;
       });
   });
   await Promise.all(fetchPromises).finally(() => {

@@ -17,13 +17,23 @@ import {
 } from './rss-view.js';
 import { state, watchedState } from './state.js';
 
+const updateAndRender = () => {
+  updateRssData()
+    .then(() => {
+      renderListRSS(watchedState);
+      console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
+    })
+    .catch((error) => {
+      console.error('error update:', error);
+    });
+};
+
 const rssLogic = async () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
   const input = document.querySelector('#url-input'); // Находим инпут по ID
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    // const inputValue = event.target.value;
     const inputValue = input.value.trim();
     validateUrl(inputValue)
       .then(() => getData(inputValue))
@@ -31,21 +41,13 @@ const rssLogic = async () => {
         updateStateWithParserData(data);
       })
       .then(() => {
-        initUI(watchedState);
+        initUI(state);
         // console.log('Articles:', watchedState.UI.articles);
-        console.log('feeds:', watchedState.UI.feeds);
+        console.log('feeds:', state.UI.feeds);
       })
       .then(() => {
         renderListRSS(state);
         renderFeedRSS(state);
-        // updateRssData()
-        //   .then(() => {
-        //     renderListRSS(state);
-        //     console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
-        //   })
-        //   .catch((error) => {
-        //     console.error('error update:', error);
-        //   });
       })
       .catch((error) => {
         if (
@@ -62,14 +64,9 @@ const rssLogic = async () => {
         }
       });
   });
-  updateRssData()
-    .then(() => {
-      renderListRSS(watchedState);
-      console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
-    })
-    .catch((error) => {
-      console.error('error update:', error);
-    });
+  //if (state.enteredData.length > 0) {
+  updateAndRender(state);
+  //}
 };
 
 export default rssLogic;
