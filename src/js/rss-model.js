@@ -17,16 +17,16 @@ import {
 } from './rss-view.js';
 import { state, watchedState } from './state.js';
 
-const updateAndRender = () => {
-  updateRssData()
-    .then(() => {
-      renderListRSS(watchedState);
-      console.log(`stateUIarticles: ${JSON.stringify(state.UI.articles)}`);
-    })
-    .catch((error) => {
-      console.error('error update:', error);
-    });
-};
+// const updateAndRender = () => {
+//   updateRssData()
+//     .then(() => {
+//       console.log(`stateUIarticles: ${JSON.stringify(watchedState.UI.articles)}`);
+//       renderListRSS(watchedState);
+//     })
+//     .catch((error) => {
+//       console.error('error update:', error);
+//     });
+// };
 
 const rssLogic = async () => {
   const form = document.querySelector('.rss-form'); // Находим форму по классу
@@ -64,9 +64,18 @@ const rssLogic = async () => {
         }
       });
   });
-  //if (state.enteredData.length > 0) {
-  updateAndRender(state);
-  //}
+  updateRssData();
+  // if (state.enteredData.length > 0) {
+  // updateAndRender(watchedState);
+  // }
+  // updateRssData(state)
+  //   .then(() => {
+  //     console.log(`stateUIarticles: ${JSON.stringify(watchedState.UI.articles)}`);
+  //     renderListRSS(state);
+  //   })
+  //   .catch((error) => {
+  //     console.error('error update:', error);
+  //   });
 };
 
 export default rssLogic;

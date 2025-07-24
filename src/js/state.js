@@ -1,4 +1,6 @@
 import onChange from 'on-change';
+import { isEqual } from 'lodash';
+import { renderListRSS } from './rss-view.js';
 
 const state = {
   inputData: '',
@@ -23,6 +25,15 @@ const state = {
 const watchedState = onChange(state, (path, value, previousValue) => {
   console.log(`Путь "${path}" изменился с ${previousValue} на ${value}`);
   console.log(watchedState);
+  if (path === 'UI.articles') {
+    // Проверяем, действительно ли изменились статьи
+    if (!isEqual(value, previousValue)) {
+      console.log(`.UI.articles: ${JSON.stringify(value)}`);
+      renderListRSS(value);
+    } else {
+      console.log('Статьи не изменились, пропускаем рендер');
+    }
+  }
 });
 
 export { state, watchedState };

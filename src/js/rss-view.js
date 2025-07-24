@@ -88,7 +88,8 @@ const renderListRSS = (state) => {
   // console.log(ulPosts);
   if (ulPosts) {
     ulPosts.innerHTML = '';
-    const articlesArray = Object.values(state.UI.articles);
+    // const articlesArray = Object.values(state.UI.articles);
+    const articlesArray = [...state.UI.articles];
     console.log(`state: ${state}`);
     console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
     console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);

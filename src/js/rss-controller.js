@@ -107,7 +107,7 @@ const updateStateWithParserData = (responseData) => {
 
 const updateRssData = async () => {
   const feeds = [...watchedState.enteredData];
-  console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
+  // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
   // console.log(`feeds: ${JSON.stringify(feeds)}`);
   const fetchPromises = feeds.map((feedUrl) => {
     // console.log(`feed: ${JSON.stringify(feed)}`);
@@ -124,7 +124,7 @@ const updateRssData = async () => {
         // console.log(`feedData: ${JSON.stringify(feedData)}`);
         // prettier-ignore
         const allNewArticles = feedData.articles
-          .map((article) => ({ ...article, channelId: article.feedId }));
+          .map((article) => ({ ...article }));
         // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
         // console.log(`allNewArticles: ${JSON.stringify(allNewArticles)}`);
         // prettier-ignore
@@ -138,9 +138,13 @@ const updateRssData = async () => {
         if (newArticles.length > 0) {
           newArticles.forEach((article) => {
             watchedState.UI.articles.unshift(article);
-            watchedState.updateStatus = 'success';
+            // watchedState.UI.articles = [...article, ...watchedState.UI.articles];
             console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
+            watchedState.updateStatus = 'success';
+            // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
           });
+        } else {
+          watchedState.updateStatus = 'no new articles';
         }
       })
       .catch((error) => {
