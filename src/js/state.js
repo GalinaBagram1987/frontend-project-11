@@ -29,7 +29,7 @@ const watchedState = onChange(state, (path, value, previousValue) => {
     // Проверяем, действительно ли изменились статьи
     if (!isEqual(value, previousValue)) {
       console.log(`.UI.articles: ${JSON.stringify(value)}`);
-      renderListRSS(value);
+      renderListRSS({ UI: { articles: value } });
     } else {
       console.log('Статьи не изменились, пропускаем рендер');
     }
