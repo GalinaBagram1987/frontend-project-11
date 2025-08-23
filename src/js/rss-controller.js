@@ -40,12 +40,8 @@ const getData = (inputValue) => {
     .then((response) => {
       watchedState.dataFetchStatus = 'success';
       const responseData = response.data.contents;
-      // const responseUrl = response.data.url;
-      // console.log('Response Data:', responseData); // Логируем данные для проверки
+      // console.log('Response Data:', responseData);
       return responseData;
-      // watchedState.getData = response.data;
-      // watchedState.getDataError = {};
-      // watchedState.dataFetchStatus = 'success';
     })
     .catch((error) => {
       watchedState.getDataError = error.message;
@@ -64,7 +60,6 @@ const parserData = (responseData) => {
     const feed = {
       name: feedName,
       description: feedDescription,
-      // url: feedUrl,
       id: uniqueId(),
     };
 
@@ -81,7 +76,6 @@ const parserData = (responseData) => {
           title: articleTitle,
           description: articleDescr,
           url: articleUrl,
-          // id: uniqueId(),
           feedId: feed.id,
         };
       })
@@ -134,8 +128,6 @@ const updateRssData = async () => {
         .map((article) => ({ ...article, id: uniqueId() }));
       console.log(`newArticles: ${JSON.stringify(newArticles)}`);
       if (newArticles.length > 0) {
-        // newArticles.forEach((article) => {
-        // watchedState.UI.articles.unshift(article);
         watchedState.UI.articles = [...newArticles, ...watchedState.UI.articles];
         // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
         watchedState.updateStatus = 'success';
@@ -144,10 +136,6 @@ const updateRssData = async () => {
         watchedState.updateStatus = 'no new articles';
       }
     });
-    // .catch((error) => {
-    //   watchedState.getDataError = error.message;
-    //   watchedState.dataFetchStatus = 'failed';
-    // });
   });
   await Promise.all(fetchPromises).finally(() => {
     setTimeout(() => updateRssData(), 5000);

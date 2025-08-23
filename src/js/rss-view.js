@@ -1,8 +1,4 @@
 import i18next from './i18next.js';
-// import { updateData } from './rss-controller.js';
-// import { watchedState } from './state.js';
-// import { watchedState } from './state.js';
-// import { watchedState } from './state.js';
 
 const urlInput = document.querySelector('#url-input');
 const feedback = document.querySelector('.feedback');
@@ -88,11 +84,9 @@ const renderListRSS = (state) => {
   // console.log(ulPosts);
   if (ulPosts) {
     ulPosts.innerHTML = '';
-    // const articlesArray = Object.values(state.UI.articles);
-    // const articlesArray = [...state.UI.articles];
     const articlesArray = state.UI.articles.flat();
     // console.log(`state: ${state}`);
-    console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
+    // console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
     // console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
     articlesArray.forEach((article) => {
       // console.log(`article: ${article}`);
@@ -141,7 +135,6 @@ const renderFeedRSS = (state) => {
     const feedsCopy = [...state.UI.feeds];
     console.log(`statefeeds: ${JSON.stringify(state.UI.feeds)}`);
     console.log(`feedsCopy: ${JSON.stringify(feedsCopy)}`);
-    // const { keyFeed, valueFeed } = feedsCopy;
     // console.log(`feedsArray: ${JSON.stringify(feedsArray)}`);
     Object.keys(feedsCopy).forEach((key) => {
       const feed = feedsCopy[key];

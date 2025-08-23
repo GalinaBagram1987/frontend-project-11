@@ -2,7 +2,6 @@
 import {
   validateUrl,
   getData,
-  // parserData,
   updateStateWithParserData,
   updateRssData,
 } from './rss-controller.js';
@@ -17,20 +16,9 @@ import {
 } from './rss-view.js';
 import { state, watchedState } from './state.js';
 
-// const updateAndRender = () => {
-//   updateRssData()
-//     .then(() => {
-//       console.log(`stateUIarticles: ${JSON.stringify(watchedState.UI.articles)}`);
-//       renderListRSS(watchedState);
-//     })
-//     .catch((error) => {
-//       console.error('error update:', error);
-//     });
-// };
-
 const rssLogic = async () => {
-  const form = document.querySelector('.rss-form'); // Находим форму по классу
-  const input = document.querySelector('#url-input'); // Находим инпут по ID
+  const form = document.querySelector('.rss-form');
+  const input = document.querySelector('#url-input');
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -65,17 +53,6 @@ const rssLogic = async () => {
       });
   });
   updateRssData();
-  // if (state.enteredData.length > 0) {
-  // updateAndRender(watchedState);
-  // }
-  // updateRssData(state)
-  //   .then(() => {
-  //     console.log(`stateUIarticles: ${JSON.stringify(watchedState.UI.articles)}`);
-  //     renderListRSS(state);
-  //   })
-  //   .catch((error) => {
-  //     console.error('error update:', error);
-  //   });
 };
 
 export default rssLogic;
