@@ -98,7 +98,6 @@ const updateStateWithParserData = (responseData) => {
   const parsData = parserData(responseData);
   const { articles, feeds } = parsData;
 
-  // watchedState.UI.articles = watchedState.UI.articles.concat(articles);
   watchedState.UI.articles.unshift(...articles);
   watchedState.UI.feeds.unshift(feeds[0]);
   watchedState.parsingStatus = 'success';
