@@ -89,10 +89,11 @@ const renderListRSS = (state) => {
   if (ulPosts) {
     ulPosts.innerHTML = '';
     // const articlesArray = Object.values(state.UI.articles);
-    const articlesArray = [...state.UI.articles];
-    console.log(`state: ${state}`);
+    // const articlesArray = [...state.UI.articles];
+    const articlesArray = state.UI.articles.flat();
+    // console.log(`state: ${state}`);
     console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
-    console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
+    // console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
     articlesArray.forEach((article) => {
       // console.log(`article: ${article}`);
       const { title, url, id } = article;

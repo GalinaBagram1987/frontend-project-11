@@ -99,7 +99,7 @@ const updateStateWithParserData = (responseData) => {
   const { articles, feeds } = parsData;
 
   // watchedState.UI.articles = watchedState.UI.articles.concat(articles);
-  watchedState.UI.articles.unshift(articles);
+  watchedState.UI.articles.unshift(...articles);
   watchedState.UI.feeds.unshift(feeds[0]);
   watchedState.parsingStatus = 'success';
 };
@@ -123,22 +123,22 @@ const updateRssData = async () => {
       // console.log(`feedData: ${JSON.stringify(feedData)}`);
       // prettier-ignore
       const allNewArticles = feedData.articles
-          .map((article) => ({ ...article }));
+        .map((article) => ({ ...article }));
       // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
       // console.log(`allNewArticles: ${JSON.stringify(allNewArticles)}`);
       // prettier-ignore
       const oldArticles = Object.values(watchedState.UI.articles)
-          .filter((article) => article.feedId);
+        .filter((article) => article.feedId);
       // console.log(`oldArticles: ${JSON.stringify(oldArticles)}`);
       // prettier-ignore
       const newArticles = differenceWith(allNewArticles, oldArticles, (art1, art2) => art1.title === art2.title)
-          .map((article) => ({ ...article, id: uniqueId() }));
+        .map((article) => ({ ...article, id: uniqueId() }));
       console.log(`newArticles: ${JSON.stringify(newArticles)}`);
       if (newArticles.length > 0) {
         // newArticles.forEach((article) => {
         // watchedState.UI.articles.unshift(article);
         watchedState.UI.articles = [...newArticles, ...watchedState.UI.articles];
-        console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
+        // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
         watchedState.updateStatus = 'success';
         // console.log(`watchedState.UI.articles: ${JSON.stringify(watchedState.UI.articles)}`);
       } else {

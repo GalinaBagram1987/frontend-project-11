@@ -22,13 +22,19 @@ const state = {
   },
 };
 
+// Флаг для пропуска начальной инициализации
+
 const watchedState = onChange(state, (path, value, previousValue) => {
   console.log(`Путь "${path}" изменился с ${previousValue} на ${value}`);
   console.log(watchedState);
-  if (path === 'UI.articles') {
-    // Проверяем, действительно ли изменились статьи
-    if (!isEqual(value, previousValue)) {
-      console.log(`.UI.articles: ${JSON.stringify(value)}`);
+  if (path === 'UI.articles' && previousValue !== undefined) {
+    const validArticles = Array.isArray(value) ? value.filter((article) => article && article.title && article.url) : [];
+    const hasChanged = !isEqual(value, previousValue);
+    // const hasArticles = Array.isArray(value) && value.length > 0;
+    const hasArticles = validArticles.length > 0;
+
+    if (hasChanged && hasArticles) {
+      console.log('Рендерим статьи:', value.length);
       renderListRSS({ UI: { articles: value } });
     } else {
       console.log('Статьи не изменились, пропускаем рендер');
