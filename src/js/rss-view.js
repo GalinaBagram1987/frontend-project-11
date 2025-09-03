@@ -1,4 +1,5 @@
 import i18next from './i18next.js';
+import { postManager } from './rss-controller.js';
 
 const urlInput = document.querySelector('#url-input');
 const feedback = document.querySelector('.feedback');
@@ -90,7 +91,7 @@ const renderListRSS = (state) => {
     // console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
     articlesArray.forEach((article) => {
       // console.log(`article: ${article}`);
-      const { title, url, id } = article;
+      const { title, url, postId } = article;
       // console.log(`Title: ${title}`);
       // console.log(`Description: ${description}`);
       // console.log(`URL: ${url}`);
@@ -105,22 +106,37 @@ const renderListRSS = (state) => {
         'border-0',
         'border-end-0',
       );
+      if (postManager.isRead(postId)) {
+        li.classList.add('fw-normal');
+      } else {
+        li.classList.add('fw-bold');
+      }
       const linkRSS = document.createElement('a');
       li.appendChild(linkRSS);
-      linkRSS.classList.add('fw-bold');
       linkRSS.href = url;
       linkRSS.target = '_blank';
       linkRSS.textContent = title;
       linkRSS.rel = 'noopener noreferrer';
 
+      linkRSS.addEventListener('click', () => {
+        postManager.markAsRead(postId);
+        li.classList.remove('fw-bold');
+        li.classList.add('fw-normal');
+      });
+
       const openButton = document.createElement('button');
       li.appendChild(openButton);
       openButton.type = 'button';
       openButton.classList.add('btn', 'btn-outline-primary', 'btn-sm');
-      openButton.setAttribute('data-id', id);
+      openButton.setAttribute('data-id', postId);
       openButton.setAttribute('data-bs-toggle', 'modal');
       openButton.setAttribute('data-bs-target', '#modal');
       openButton.textContent = i18next.t('viewButton');
+      openButton.addEventListener('click', () => {
+        postManager.markAsRead(postId);
+        li.classList.remove('fw-bold');
+        li.classList.add('fw-normal');
+      });
     });
   } else {
     console.error('Не удалось найти элемент ul для добавления статей.');

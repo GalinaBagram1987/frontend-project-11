@@ -76,6 +76,7 @@ const parserData = (responseData) => {
           title: articleTitle,
           description: articleDescr,
           url: articleUrl,
+          postId: uniqueId(),
           feedId: feed.id,
         };
       })
@@ -141,7 +142,14 @@ const updateRssData = async () => {
     setTimeout(() => updateRssData(), 5000);
   });
 };
+// обратока клика по ссылке
 
+const postManager = {
+  markAsRead: (postId) => {
+    watchedState.readPosts.readIds.add(postId);
+  },
+  isRead: (postId) => watchedState.readPosts.readIds.has(postId),
+};
 // prettier-ignore
 export {
   validateUrl,
@@ -149,4 +157,5 @@ export {
   parserData,
   updateStateWithParserData,
   updateRssData,
+  postManager,
 };

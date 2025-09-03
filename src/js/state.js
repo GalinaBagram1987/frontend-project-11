@@ -18,6 +18,9 @@ const state = {
     articles: [], // статьи
     feeds: [], // поля
   },
+  readPosts: {
+    readIds: new Set(),
+  },
 };
 
 const watchedState = onChange(state, (path, value, previousValue) => {
