@@ -136,6 +136,11 @@ const renderListRSS = (state) => {
         postManager.markAsRead(postId);
         li.classList.remove('fw-bold');
         li.classList.add('fw-normal');
+
+        // Заполняем модалку данными статьи
+        document.getElementById('modalLabel').textContent = article.title;
+        document.getElementById('modalArticleDescription').textContent = article.description;
+        document.getElementById('modalArticleLink').href = article.url;
       });
     });
   } else {
