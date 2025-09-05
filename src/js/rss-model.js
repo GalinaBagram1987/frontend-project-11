@@ -30,6 +30,7 @@ const rssLogic = async () => {
       })
       .then(() => {
         initUI(state);
+        // console.log('Articles:', watchedState.UI.articles);
         console.log('feeds:', state.UI.feeds);
       })
       .then(() => {
