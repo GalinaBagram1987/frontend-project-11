@@ -42,7 +42,7 @@ const initUI = (watchedState) => {
     urlInput.value = '';
     feedback.classList.remove('text-danger');
     feedback.classList.add('text-success');
-    feedback.textContent = i18next.t('downloadOk'); // добавляем что успешно загружено
+    feedback.textContent = i18next.t('downloadOk');
     console.log(feedback);
     // posts
     const posts = document.querySelector('.posts');
