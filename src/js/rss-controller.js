@@ -29,14 +29,26 @@ const validateUrl = (inputValue) => {
   // console.log(watchedState.validationStatus);
 };
 
+//выносим отдельно создание proxy
+
+const addProxy = (rssLink) => {
+  const urlWithProxy = new URL('/get', 'https://allorigins.hexlet.app');
+  urlWithProxy.searchParams.set('url', rssLink);
+  urlWithProxy.searchParams.set('disableCache', 'true');
+  return urlWithProxy.toString();
+};
+
 const getData = (inputValue) => {
   watchedState.inputData = inputValue.trim();
   watchedState.enteredData.push(watchedState.inputData);
   watchedState.dataFetchStatus = 'processing';
-  const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
-  ${encodeURIComponent(watchedState.inputData.trim())}`;
+  // const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
+  // ${encodeURIComponent(watchedState.inputData.trim())}`;
+
+  const url = addProxy(watchedState.inputData.trim());
+
   return axios
-    .get(proxyUrl)
+    .get(url)
     .then((response) => {
       watchedState.dataFetchStatus = 'success';
       const responseData = response.data.contents;
@@ -109,9 +121,10 @@ const updateRssData = async () => {
     // console.log(`feedUrl: ${JSON.stringify(feedUrl)}`);
 
     watchedState.dataFetchStatus = 'processing';
-    const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
-      ${encodeURIComponent(feedUrl)}`;
-    return axios.get(proxyUrl).then((response) => {
+    const proxyFeedUrl = addProxy(feedUrl);
+    //const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=
+    // ${encodeURIComponent(feedUrl)}`;
+    return axios.get(proxyFeedUrl).then((response) => {
       watchedState.dataFetchStatus = 'success';
       const feedData = parserData(response.data.contents);
       // console.log(`feedData: ${JSON.stringify(feedData)}`);
