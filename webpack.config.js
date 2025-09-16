@@ -8,10 +8,10 @@ const __dirname = path.dirname(__filename);
 
 const config = {
   mode: 'development', // или 'production
-  entry: './src/js/index.js',
+  entry: './index.js',
   devServer: {
     static: path.resolve(__dirname),
-    port: 8080,
+    port: 8081,
     hot: true, // Включаем HMR
     client: {
       overlay: false, // не экранируем ошибки
