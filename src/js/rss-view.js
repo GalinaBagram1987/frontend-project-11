@@ -43,6 +43,10 @@ const initUI = (watchedState) => {
     feedback.classList.remove('text-danger');
     feedback.classList.add('text-success');
     feedback.textContent = i18next.t('downloadOk');
+
+    feedback.style.display = 'block';
+    feedback.style.visibility = 'visible';
+
     console.log(feedback);
     // posts
     const posts = document.querySelector('.posts');
