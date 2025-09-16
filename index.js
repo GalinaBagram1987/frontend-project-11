@@ -2,7 +2,7 @@
 // import 'bootstrap';
 
 if (process.env.NODE_ENV !== 'test') {
-  import('../scss/styles.scss');
+  import('./src/scss/style.scss');
   import('bootstrap');
 }
 
