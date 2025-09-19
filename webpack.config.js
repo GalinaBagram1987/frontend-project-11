@@ -12,7 +12,7 @@ const config = {
   devServer: {
     static: path.resolve(__dirname),
     port: 8081,
-    hot: true, // Включаем HMR
+    hot: false, // Включаем HMR
     client: {
       overlay: false, // не экранируем ошибки
     },
