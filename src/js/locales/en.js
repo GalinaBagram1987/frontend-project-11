@@ -1,7 +1,7 @@
 const enTransl = {
   translation: {
-    errorRSS: 'The resource does not contain valid RSS',
-    errorParsing: 'Error parsing data',
+    errorRSS: 'The link must be a valid Url',
+    errorParsing: 'The resource does not contain valid RSS',
     errorUniq: 'RSS already exists',
     downloadOk: 'RSS successfully uploaded',
     downloadError: 'Network error',

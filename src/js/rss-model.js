@@ -44,7 +44,7 @@ const rssLogic = async () => {
           && watchedState.getDataError.includes(error))
           || watchedState.dataFetchStatus === 'failed'
         ) {
-          renderGetDataError(); // ошибка получения данных
+          renderGetDataError(watchedState); // ошибка получения данных
         } else if (watchedState.validationStatus === 'invalid') {
           renderErrors(watchedState); // ошибка валидации
         } else if (watchedState.parsingStatus === 'failed') {

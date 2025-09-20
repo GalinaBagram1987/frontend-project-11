@@ -22,6 +22,12 @@ const renderGetDataError = (watchedState) => {
     urlInput.classList.add('text-danger');
     urlInput.classList.remove('text-success');
     feedback.innerHTML = i18next.t('downloadError');
+    feedback.classList.add('text-danger');
+    // feedback.classList.add('invalid-feedack');
+  } else {
+    urlInput.classList.remove('text-danger');
+    feedback.classList.remove('text-danger');
+    feedback.textContent = '';
   }
 };
 
@@ -110,22 +116,21 @@ const renderListRSS = (state) => {
         'border-0',
         'border-end-0',
       );
-      if (postManager.isRead(postId)) {
-        li.classList.add('fw-normal');
-      } else {
-        li.classList.add('fw-bold');
-      }
       const linkRSS = document.createElement('a');
       li.appendChild(linkRSS);
       linkRSS.href = url;
       linkRSS.target = '_blank';
       linkRSS.textContent = title;
       linkRSS.rel = 'noopener noreferrer';
-
+      if (postManager.isRead(postId)) {
+        linkRSS.classList.add('fw-normal');
+      } else {
+        linkRSS.classList.add('fw-bold');
+      }
       linkRSS.addEventListener('click', () => {
         postManager.markAsRead(postId);
-        li.classList.remove('fw-bold');
-        li.classList.add('fw-normal');
+        linkRSS.classList.remove('fw-bold');
+        linkRSS.classList.add('fw-normal');
       });
 
       const openButton = document.createElement('button');
@@ -138,8 +143,8 @@ const renderListRSS = (state) => {
       openButton.textContent = i18next.t('viewButton');
       openButton.addEventListener('click', () => {
         postManager.markAsRead(postId);
-        li.classList.remove('fw-bold');
-        li.classList.add('fw-normal');
+        linkRSS.classList.remove('fw-bold');
+        linkRSS.classList.add('fw-normal');
 
         // Заполняем модалку данными статьи
         document.getElementById('modalLabel').textContent = article.title;

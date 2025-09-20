@@ -18,11 +18,11 @@ const schemaValidate = yup.object().shape({
     .string()
     .url('errorRSS')
     .required()
-    .test('errorUniq', 'errorUniq', (url) => !state.enteredData.includes(url))
-    .test('errorRSS', (url) => {
-      const rssPattern = /(\.(xml|rss|feed))|((\/feed)|(\/feeds))$/i;
-      return rssPattern.test(url);
-    }),
+    .test('errorUniq', 'errorUniq', (url) => !state.enteredData.includes(url)),
+  // .test('errorRSS', (url) => {
+  // const rssPattern = /(\.(xml|rss|feed))|((\/feed)|(\/feeds))$/i;
+  // return rssPattern.test(url);
+  // }),
 });
 
 export default schemaValidate;
