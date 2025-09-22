@@ -114,7 +114,6 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      scriptLoading: 'module',
       attributes: {
         crossorigin: '',
       },
