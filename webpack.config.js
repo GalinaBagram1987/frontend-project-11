@@ -114,6 +114,10 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
+      scriptLoading: 'module',
+      attributes: {
+        crossorigin: '',
+      },
     }),
   ],
   output: {
@@ -124,19 +128,6 @@ const config = {
   optimization: {
     minimize: false, // Отключаем в development
   },
-  // optimization: {
-  //   minimize: true,
-  //   minimizer: [
-  //     new TerserPlugin({
-  //       terserOptions: {
-  //         compress: {
-  //           drop_console: false, // Убедитесь, что эта опция установлена
-  //         },
-  //       },
-  //       extractComments: false,
-  //     }),
-  //   ],
-  // },
   watchOptions: {
     aggregateTimeout: 500, // Задержка перед пересборкой
     ignored: ['**/node_modules', '**/dist'], // Игнорируемые пути
