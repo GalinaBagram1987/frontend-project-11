@@ -69,6 +69,7 @@ import { fileURLToPath } from 'url';
 
 // настройки без bable
 // Без babel: вычисляем __dirname/filename через URL API
+// Без babel: вычисляем __dirname/filename через URL API
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -114,9 +115,6 @@ const config = {
   plugins: [
     new HtmlWebpackPlugin({
       template: 'index.html',
-      attributes: {
-        crossorigin: '',
-      },
     }),
   ],
   output: {
@@ -127,6 +125,19 @@ const config = {
   optimization: {
     minimize: false, // Отключаем в development
   },
+  // optimization: {
+  //   minimize: true,
+  //   minimizer: [
+  //     new TerserPlugin({
+  //       terserOptions: {
+  //         compress: {
+  //           drop_console: false, // Убедитесь, что эта опция установлена
+  //         },
+  //       },
+  //       extractComments: false,
+  //     }),
+  //   ],
+  // },
   watchOptions: {
     aggregateTimeout: 500, // Задержка перед пересборкой
     ignored: ['**/node_modules', '**/dist'], // Игнорируемые пути
