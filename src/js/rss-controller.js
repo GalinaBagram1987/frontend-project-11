@@ -58,6 +58,8 @@ const getData = (inputValue) => {
     .catch((error) => {
       watchedState.getDataError = error.message;
       watchedState.dataFetchStatus = 'failed';
+      // Бросаем ошибку, чтобы прервать цепочку
+      throw error;
     });
 };
 
@@ -103,6 +105,11 @@ const parserData = (responseData) => {
 
 const updateStateWithParserData = (responseData) => {
   const parsData = parserData(responseData);
+
+  if (!parsData) {
+    throw new Error('Parsing failed');
+  }
+
   const { articles, feeds } = parsData;
 
   watchedState.UI.articles.unshift(...articles);
