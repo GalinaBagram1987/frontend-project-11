@@ -61,7 +61,7 @@ const config = {
     minimize: false, // Отключаем в development
   },
   watchOptions: {
-    aggregateTimeout: 500, // Задержка перед пересборкой
+    aggregateTimeout: 300, // Задержка перед пересборкой
     ignored: ['**/node_modules', '**/dist'], // Игнорируемые пути
   },
   watch: false,
