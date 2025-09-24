@@ -6,3 +6,4 @@ dist/
 __fixtures__
 __tests__
 __test-results__
+playwright.config.js

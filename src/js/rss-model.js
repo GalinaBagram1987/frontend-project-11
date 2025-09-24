@@ -19,7 +19,7 @@ import { state, watchedState } from './state.js';
 const rssLogic = async () => {
   const form = document.querySelector('.rss-form');
   const input = document.querySelector('#url-input');
-  const submitButton = form.querySelector('button[type="submit"]');
+  const submitButton = document.querySelector('#input-button');
 
   if (!form || !input || !submitButton) {
     console.error('Не найдены необходимые элементы DOM');

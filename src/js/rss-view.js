@@ -13,7 +13,7 @@ const renderErrors = (watchedState) => {
   } else {
     urlInput.classList.remove('text-danger');
     urlInput.classList.add('text-success');
-    feedback.innerHTML = ''; // Убираем сообщение при валидном URL
+    feedback.innerHTML = '';
   }
 };
 
@@ -23,7 +23,6 @@ const renderGetDataError = (watchedState) => {
     urlInput.classList.remove('text-success');
     feedback.innerHTML = i18next.t('downloadError');
     feedback.classList.add('text-danger');
-    // feedback.classList.add('invalid-feedack');
   } else {
     urlInput.classList.remove('text-danger');
     feedback.classList.remove('text-danger');
