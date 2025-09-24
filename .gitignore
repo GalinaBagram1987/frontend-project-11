@@ -3,3 +3,6 @@ node_modules/
 *.log
 assets
 dist/
+__fixtures__
+__tests__
+__test-results__
