@@ -4,7 +4,8 @@ import { postManager } from './rss-controller.js'
 const urlInput = document.querySelector('#url-input')
 const feedback = document.querySelector('.feedback')
 
-const renderErrors = watchedState => {
+// prettier-ignore
+const renderErrors = (watchedState) => {
   if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('text-danger')
     feedback.classList.remove('text-success')
@@ -18,7 +19,8 @@ const renderErrors = watchedState => {
   }
 }
 
-const renderGetDataError = watchedState => {
+// prettier-ignore
+const renderGetDataError = (watchedState) => {
   if (watchedState.dataFetchStatus === 'failed') {
     urlInput.classList.add('text-danger')
     urlInput.classList.remove('text-success')
@@ -32,7 +34,8 @@ const renderGetDataError = watchedState => {
   }
 }
 
-const renderParsingError = watchedState => {
+// prettier-ignore
+const renderParsingError = (watchedState) => {
   if (watchedState.parsingStatus === 'failed') {
     urlInput.classList.remove('text-success')
     urlInput.classList.add('text-danger')
@@ -42,7 +45,8 @@ const renderParsingError = watchedState => {
   }
 }
 
-const initUI = watchedState => {
+// prettier-ignore
+const initUI = (watchedState) => {
   if (watchedState.parsingStatus === 'success') {
     urlInput.classList.remove('text-danger')
     urlInput.classList.add('text-success')
@@ -91,7 +95,8 @@ const initUI = watchedState => {
   }
 }
 
-const renderListRSS = state => {
+// prettier-ignore
+const renderListRSS = (state) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0')
   if (
     ulPosts
@@ -154,7 +159,8 @@ const renderListRSS = state => {
   }
 }
 
-const renderFeedRSS = state => {
+// prettier-ignore
+const renderFeedRSS = (state) => {
   const ulFeeds = document.querySelector('.feeds .list-group')
   console.log(ulFeeds)
   if (

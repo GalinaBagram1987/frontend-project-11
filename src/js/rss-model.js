@@ -14,56 +14,58 @@ import {
   renderParsingError,
   renderFeedRSS,
 } from './rss-view.js'
-import { state, watchedState } from './state.js';
+import { state, watchedState } from './state.js'
 
 const rssLogic = async () => {
-  const form = document.querySelector('.rss-form');
-  const input = document.querySelector('#url-input');
-  const submitButton = document.querySelector('#input-button');
+  const form = document.querySelector('.rss-form')
+  const input = document.querySelector('#url-input')
+  const submitButton = document.querySelector('#input-button')
 
   if (!form || !input || !submitButton) {
-    console.error('Не найдены необходимые элементы DOM');
-    return;
+    console.error('Не найдены необходимые элементы DOM')
+    return
   }
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
+  form.addEventListener('submit', event => {
+    event.preventDefault()
 
-    const inputValue = input.value.trim();
-    submitButton.disabled = true;
+    const inputValue = input.value.trim()
+    submitButton.disabled = true
     validateUrl(inputValue)
       .then(() => getData(inputValue))
-      .then((data) => {
-        updateStateWithParserData(data);
+      .then(data => {
+        updateStateWithParserData(data)
       })
       .then(() => {
-        initUI(state);
-        console.log('feeds:', state.UI.feeds);
+        initUI(state)
+        console.log('feeds:', state.UI.feeds)
       })
       .then(() => {
-        renderListRSS(state);
-        renderFeedRSS(state);
+        renderListRSS(state)
+        renderFeedRSS(state)
       })
-      .catch((error) => {
+      .catch(error => {
         if (
           // prettier-ignore
           (Array.isArray(watchedState.getDataError)
             && watchedState.getDataError.includes(error))
-        || watchedState.dataFetchStatus === 'failed'
+          || watchedState.dataFetchStatus === 'failed'
           // prettier-ignore
         ) {
-          renderGetDataError(watchedState); // ошибка получения данных
-        } else if (watchedState.validationStatus === 'invalid') {
-          renderErrors(watchedState); // ошибка валидации
-        } else if (watchedState.parsingStatus === 'failed') {
-          renderParsingError(watchedState);
+          renderGetDataError(watchedState) // ошибка получения данных
+        } // prettier-ignore
+        else if (watchedState.validationStatus === 'invalid') {
+          renderErrors(watchedState) // ошибка валидации
+        } // prettier-ignore
+        else if (watchedState.parsingStatus === 'failed') {
+          renderParsingError(watchedState)
         }
       })
       .finally(() => {
-        submitButton.disabled = false;
-      });
-  });
-  updateRssData();
-};
+        submitButton.disabled = false
+      })
+  })
+  updateRssData()
+}
 
-export default rssLogic;
+export default rssLogic
