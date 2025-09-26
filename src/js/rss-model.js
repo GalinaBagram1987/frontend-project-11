@@ -14,36 +14,36 @@ import {
   renderParsingError,
   renderFeedRSS,
 } from './rss-view.js';
-import { state, watchedState } from './state.js';
+import { state, watchedState } from "./state.js"
 
 const rssLogic = async () => {
-  const form = document.querySelector('.rss-form');
-  const input = document.querySelector('#url-input');
-  const submitButton = document.querySelector('#input-button');
+  const form = document.querySelector(".rss-form")
+  const input = document.querySelector("#url-input")
+  const submitButton = document.querySelector("#input-button")
 
   if (!form || !input || !submitButton) {
-    console.error('Не найдены необходимые элементы DOM');
-    return;
+    console.error("Не найдены необходимые элементы DOM")
+    return
   }
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
+  form.addEventListener("submit", (event) => {
+    event.preventDefault()
 
-    const inputValue = input.value.trim();
-    submitButton.disabled = true;
+    const inputValue = input.value.trim()
+    submitButton.disabled = true
     validateUrl(inputValue)
       .then(() => getData(inputValue))
       .then((data) => {
-        updateStateWithParserData(data);
+        updateStateWithParserData(data)
       })
       .then(() => {
-        initUI(state);
+        initUI(state)
         // console.log('Articles:', watchedState.UI.articles);
-        console.log('feeds:', state.UI.feeds);
+        console.log("feeds:", state.UI.feeds)
       })
       .then(() => {
-        renderListRSS(state);
-        renderFeedRSS(state);
+        renderListRSS(state)
+        renderFeedRSS(state)
       })
       .catch((error) => {
         if (
@@ -52,18 +52,18 @@ const rssLogic = async () => {
           && watchedState.getDataError.includes(error))
           || watchedState.dataFetchStatus === 'failed'
         ) {
-          renderGetDataError(watchedState); // ошибка получения данных
-        } else if (watchedState.validationStatus === 'invalid') {
-          renderErrors(watchedState); // ошибка валидации
-        } else if (watchedState.parsingStatus === 'failed') {
-          renderParsingError(watchedState);
+          renderGetDataError(watchedState) // ошибка получения данных
+        } else if (watchedState.validationStatus === "invalid") {
+          renderErrors(watchedState) // ошибка валидации
+        } else if (watchedState.parsingStatus === "failed") {
+          renderParsingError(watchedState)
         }
       })
       .finally(() => {
-        submitButton.disabled = false;
-      });
-  });
-  updateRssData();
-};
+        submitButton.disabled = false
+      })
+  })
+  updateRssData()
+}
 
-export default rssLogic;
+export default rssLogic

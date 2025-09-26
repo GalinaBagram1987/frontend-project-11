@@ -1,9 +1,9 @@
-import ruTransl from './ru.js';
-import enTransl from './en.js';
+import ruTransl from "./ru.js"
+import enTransl from "./en.js"
 
 const resources = {
   en: enTransl,
-  ru: ruTransl,
-};
+  ru: ruTransl
+}
 
-export default resources;
+export default resources
