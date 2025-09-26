@@ -5,5 +5,5 @@ assets
 dist/
 __fixtures__
 __tests__
-__test-results__
+test-results
 playwright.config.js
