@@ -4,33 +4,35 @@ import { postManager } from './rss-controller.js'
 const urlInput = document.querySelector('#url-input')
 const feedback = document.querySelector('.feedback')
 
-const renderErrors = (watchedState) => {
+const renderErrors = watchedState => {
   if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('text-danger')
     feedback.classList.remove('text-success')
     feedback.classList.add('text-danger')
     feedback.innerHTML = i18next.t(watchedState.errorKey)
-  } else {
+  } // prettier-ignore
+  else {
     urlInput.classList.remove('text-danger')
     urlInput.classList.add('text-success')
     feedback.innerHTML = ''
   }
 }
 
-const renderGetDataError = (watchedState) => {
+const renderGetDataError = watchedState => {
   if (watchedState.dataFetchStatus === 'failed') {
     urlInput.classList.add('text-danger')
     urlInput.classList.remove('text-success')
     feedback.innerHTML = i18next.t('downloadError')
     feedback.classList.add('text-danger')
-  } else {
+  } // prettier-ignore
+  else {
     urlInput.classList.remove('text-danger')
     feedback.classList.remove('text-danger')
     feedback.textContent = ''
   }
 }
 
-const renderParsingError = (watchedState) => {
+const renderParsingError = watchedState => {
   if (watchedState.parsingStatus === 'failed') {
     urlInput.classList.remove('text-success')
     urlInput.classList.add('text-danger')
@@ -40,7 +42,7 @@ const renderParsingError = (watchedState) => {
   }
 }
 
-const initUI = (watchedState) => {
+const initUI = watchedState => {
   if (watchedState.parsingStatus === 'success') {
     urlInput.classList.remove('text-danger')
     urlInput.classList.add('text-success')
@@ -89,21 +91,15 @@ const initUI = (watchedState) => {
   }
 }
 
-const renderListRSS = (state) => {
+const renderListRSS = state => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0')
-  // console.log(ulPosts);
-  if (ulPosts) {
+  if (
+    ulPosts
+  ) {
     ulPosts.innerHTML = ''
     const articlesArray = state.UI.articles.flat()
-    // console.log(`state: ${state}`);
-    // console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
-    // console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
     articlesArray.forEach((article) => {
-      // console.log(`article: ${article}`);
       const { title, url, postId } = article
-      // console.log(`Title: ${title}`);
-      // console.log(`Description: ${description}`)
-      // console.log(`URL: ${url}`);
       const li = document.createElement('li')
       ulPosts.appendChild(li)
       // prettier-ignore
@@ -123,7 +119,8 @@ const renderListRSS = (state) => {
       linkRSS.rel = 'noopener noreferrer'
       if (postManager.isRead(postId)) {
         linkRSS.classList.add('fw-normal')
-      } else {
+      } // prettier-ignore
+      else {
         linkRSS.classList.add('fw-bold')
       }
       linkRSS.addEventListener('click', () => {
@@ -151,20 +148,22 @@ const renderListRSS = (state) => {
         document.getElementById('modalArticleLink').href = article.url
       })
     })
-  } else {
+  } // prettier-ignore
+  else {
     console.error('Не удалось найти элемент ul для добавления статей.')
   }
 }
 
-const renderFeedRSS = (state) => {
+const renderFeedRSS = state => {
   const ulFeeds = document.querySelector('.feeds .list-group')
   console.log(ulFeeds)
-  if (ulFeeds) {
+  if (
+    ulFeeds
+  ) {
     ulFeeds.innerHTML = ''
     const feedsCopy = [...state.UI.feeds]
     console.log(`statefeeds: ${JSON.stringify(state.UI.feeds)}`)
     console.log(`feedsCopy: ${JSON.stringify(feedsCopy)}`)
-    // console.log(`feedsArray: ${JSON.stringify(feedsArray)}`);
     Object.keys(feedsCopy).forEach((key) => {
       const feed = feedsCopy[key]
       const { name, description } = feed
@@ -180,7 +179,8 @@ const renderFeedRSS = (state) => {
       pFeed.classList.add('m-0', 'small', 'text-black-50')
       pFeed.textContent = description
     })
-  } else {
+  } // prettier-ignore
+  else {
     console.error('Не удалось найти элемент ul для добавления feeds.')
   }
 }
