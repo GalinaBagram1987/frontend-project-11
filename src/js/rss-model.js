@@ -14,19 +14,19 @@ import {
   renderParsingError,
   renderFeedRSS,
 } from './rss-view.js';
-import { state, watchedState } from "./state.js"
+import { state, watchedState } from './state.js'
 
 const rssLogic = async () => {
-  const form = document.querySelector(".rss-form")
-  const input = document.querySelector("#url-input")
-  const submitButton = document.querySelector("#input-button")
+  const form = document.querySelector('.rss-form')
+  const input = document.querySelector('#url-input')
+  const submitButton = document.querySelector('#input-button')
 
   if (!form || !input || !submitButton) {
-    console.error("Не найдены необходимые элементы DOM")
+    console.error('Не найдены необходимые элементы DOM')
     return
   }
 
-  form.addEventListener("submit", (event) => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault()
 
     const inputValue = input.value.trim()
@@ -39,7 +39,7 @@ const rssLogic = async () => {
       .then(() => {
         initUI(state)
         // console.log('Articles:', watchedState.UI.articles);
-        console.log("feeds:", state.UI.feeds)
+        console.log('feeds:', state.UI.feeds)
       })
       .then(() => {
         renderListRSS(state)
@@ -53,9 +53,9 @@ const rssLogic = async () => {
           || watchedState.dataFetchStatus === 'failed'
         ) {
           renderGetDataError(watchedState) // ошибка получения данных
-        } else if (watchedState.validationStatus === "invalid") {
+        } else if (watchedState.validationStatus === 'invalid') {
           renderErrors(watchedState) // ошибка валидации
-        } else if (watchedState.parsingStatus === "failed") {
+        } else if (watchedState.parsingStatus === 'failed') {
           renderParsingError(watchedState)
         }
       })
