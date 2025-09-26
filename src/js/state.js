@@ -28,14 +28,16 @@ const watchedState = onChange(state, (path, value, previousValue) => {
   if (path === 'UI.articles' && previousValue !== undefined) {
     // prettier-ignore
     const validArticles = Array.isArray(value)
-      ? value.filter(article => article && article.title && article.url) : []
+      ? value.filter(article => article && article.title && article.url) 
+      : []
     const hasChanged = !isEqual(value, previousValue)
     const hasArticles = validArticles.length > 0
 
     if (hasChanged && hasArticles) {
       console.log('Рендерим статьи:', value.length)
       renderListRSS({ UI: { articles: value } })
-    } else {
+    } // prettier-ignore
+    else {
       console.log('Статьи не изменились, пропускаем рендер')
     }
   }
