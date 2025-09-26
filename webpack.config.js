@@ -1,9 +1,9 @@
-import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin'; // Импортируем HtmlWebpackPlugin
-import { fileURLToPath } from 'url';
+import path from 'path'
+import HtmlWebpackPlugin from 'html-webpack-plugin' // Импортируем HtmlWebpackPlugin
+import { fileURLToPath } from 'url'
 
-const filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(filename);
+const filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(filename)
 
 const config = {
   mode: 'development', // или 'production'
@@ -39,6 +39,6 @@ const config = {
     aggregateTimeout: 500, // Задержка перед пересборкой
     ignored: ['/node_modules', '/dist'], // Игнорируемые пути
   },
-};
+}
 
-export default config;
+export default config

@@ -4,7 +4,7 @@ import {
   getData,
   updateStateWithParserData,
   updateRssData,
-} from './rss-controller.js';
+} from './rss-controller.js'
 // prettier-ignore
 import {
   renderErrors,
@@ -13,7 +13,7 @@ import {
   renderListRSS,
   renderParsingError,
   renderFeedRSS,
-} from './rss-view.js';
+} from './rss-view.js'
 import { state, watchedState } from './state.js'
 
 const rssLogic = async () => {
@@ -26,31 +26,31 @@ const rssLogic = async () => {
     return
   }
 
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault()
 
     const inputValue = input.value.trim()
     submitButton.disabled = true
     validateUrl(inputValue)
       .then(() => getData(inputValue))
-      .then(data => {
+      .then((data) => {
         updateStateWithParserData(data)
       })
       .then(() => {
         initUI(state)
-        // console.log('Articles:', watchedState.UI.articles);
         console.log('feeds:', state.UI.feeds)
       })
       .then(() => {
         renderListRSS(state)
         renderFeedRSS(state)
       })
-      .catch(error => {
+      .catch((error) => {
         if (
           // prettier-ignore
           (Array.isArray(watchedState.getDataError)
             && watchedState.getDataError.includes(error))
         || watchedState.dataFetchStatus === 'failed'
+          // prettier-ignore
         ) {
           renderGetDataError(watchedState) // ошибка получения данных
         } else if (watchedState.validationStatus === 'invalid') {

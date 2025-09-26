@@ -4,7 +4,7 @@ import { postManager } from './rss-controller.js'
 const urlInput = document.querySelector('#url-input')
 const feedback = document.querySelector('.feedback')
 
-const renderErrors = watchedState => {
+const renderErrors = (watchedState) => {
   if (watchedState.validationStatus === 'invalid') {
     urlInput.classList.add('text-danger')
     feedback.classList.remove('text-success')
@@ -17,7 +17,7 @@ const renderErrors = watchedState => {
   }
 }
 
-const renderGetDataError = watchedState => {
+const renderGetDataError = (watchedState) => {
   if (watchedState.dataFetchStatus === 'failed') {
     urlInput.classList.add('text-danger')
     urlInput.classList.remove('text-success')
@@ -30,7 +30,7 @@ const renderGetDataError = watchedState => {
   }
 }
 
-const renderParsingError = watchedState => {
+const renderParsingError = (watchedState) => {
   if (watchedState.parsingStatus === 'failed') {
     urlInput.classList.remove('text-success')
     urlInput.classList.add('text-danger')
@@ -40,7 +40,7 @@ const renderParsingError = watchedState => {
   }
 }
 
-const initUI = watchedState => {
+const initUI = (watchedState) => {
   if (watchedState.parsingStatus === 'success') {
     urlInput.classList.remove('text-danger')
     urlInput.classList.add('text-success')
@@ -89,7 +89,7 @@ const initUI = watchedState => {
   }
 }
 
-const renderListRSS = state => {
+const renderListRSS = (state) => {
   const ulPosts = document.querySelector('.posts .card > ul.list-group.border-0.rounded-0')
   // console.log(ulPosts);
   if (ulPosts) {
@@ -98,7 +98,7 @@ const renderListRSS = state => {
     // console.log(`state: ${state}`);
     // console.log(`articlesArray: ${JSON.stringify(articlesArray)}`);
     // console.log(`state.UI.articles: ${JSON.stringify(state.UI.articles)}`);
-    articlesArray.forEach(article => {
+    articlesArray.forEach((article) => {
       // console.log(`article: ${article}`);
       const { title, url, postId } = article
       // console.log(`Title: ${title}`);
@@ -114,7 +114,7 @@ const renderListRSS = state => {
         'align-items-start',
         'border-0',
         'border-end-0',
-      );
+      )
       const linkRSS = document.createElement('a')
       li.appendChild(linkRSS)
       linkRSS.href = url
@@ -156,7 +156,7 @@ const renderListRSS = state => {
   }
 }
 
-const renderFeedRSS = state => {
+const renderFeedRSS = (state) => {
   const ulFeeds = document.querySelector('.feeds .list-group')
   console.log(ulFeeds)
   if (ulFeeds) {
@@ -165,7 +165,7 @@ const renderFeedRSS = state => {
     console.log(`statefeeds: ${JSON.stringify(state.UI.feeds)}`)
     console.log(`feedsCopy: ${JSON.stringify(feedsCopy)}`)
     // console.log(`feedsArray: ${JSON.stringify(feedsArray)}`);
-    Object.keys(feedsCopy).forEach(key => {
+    Object.keys(feedsCopy).forEach((key) => {
       const feed = feedsCopy[key]
       const { name, description } = feed
       const li = document.createElement('li')
@@ -193,4 +193,4 @@ export {
   renderListRSS,
   renderParsingError,
   renderFeedRSS,
-};
+}
