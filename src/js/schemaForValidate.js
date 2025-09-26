@@ -18,7 +18,7 @@ const schemaValidate = yup.object().shape({
     .string()
     .url('errorRSS')
     .required()
-    .test('errorUniq', 'errorUniq', (url) => !state.enteredData.includes(url)),
+    .test('errorUniq', 'errorUniq', url => !state.enteredData.includes(url)),
 })
 
 export default schemaValidate

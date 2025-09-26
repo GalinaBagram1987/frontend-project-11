@@ -13,7 +13,7 @@ const enTransl = {
   },
   startPage: {
     titleH1: 'RSS aggregator',
-    titleP: "Start reading RSS today! It's easy, it's beautiful.",
+    titleP: 'Start reading RSS today! Its easy, its beautiful.',
     addButton: 'Add',
     inputText: 'RSS Link',
     exampleText: 'Example: https://lorem-rss.hexlet.app',

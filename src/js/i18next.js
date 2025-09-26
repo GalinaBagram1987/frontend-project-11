@@ -1,10 +1,10 @@
-import i18next from "i18next"
-import resources from "./locales/resources.js"
+import i18next from 'i18next'
+import resources from './locales/resources.js'
 
 await i18next.init({
-  lng: "ru",
+  lng: 'ru',
   debug: true,
-  resources
+  resources,
 })
 
 export default i18next
