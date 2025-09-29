@@ -26,14 +26,14 @@ const rssLogic = async () => {
     return
   }
 
-  form.addEventListener('submit', event => {
+  form.addEventListener('submit', (event) => {
     event.preventDefault()
 
     const inputValue = input.value.trim()
     submitButton.disabled = true
     validateUrl(inputValue)
       .then(() => getData(inputValue))
-      .then(data => {
+      .then((data) => {
         updateStateWithParserData(data)
       })
       .then(() => {
@@ -44,7 +44,7 @@ const rssLogic = async () => {
         renderListRSS(state)
         renderFeedRSS(state)
       })
-      .catch(error => {
+      .catch((error) => {
         if (
           // prettier-ignore
           (Array.isArray(watchedState.getDataError)
@@ -54,7 +54,9 @@ const rssLogic = async () => {
         ) {
           renderGetDataError(watchedState) // ошибка получения данных
         } // prettier-ignore
-        else if (watchedState.validationStatus === 'invalid') {
+        else if (
+          watchedState.validationStatus === 'invalid'
+        ) {
           renderErrors(watchedState) // ошибка валидации
         } // prettier-ignore
         else if (watchedState.parsingStatus === 'failed') {

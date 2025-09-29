@@ -7,7 +7,7 @@ import { watchedState } from './state.js'
 
 // получение данных
 
-const validateUrl = inputValue => {
+const validateUrl = (inputValue) => {
   watchedState.inputData = inputValue
 
   return schemaValidate
@@ -16,7 +16,7 @@ const validateUrl = inputValue => {
       watchedState.validationStatus = 'valid'
       watchedState.errorKey = ''
     })
-    .catch(error => {
+    .catch((error) => {
       if (error instanceof yup.ValidationError) {
         watchedState.validationStatus = 'invalid'
         const errorKey = error.errors[0]
@@ -29,14 +29,14 @@ const validateUrl = inputValue => {
 
 // выносим отдельно создание proxy
 
-const addProxy = rssLink => {
+const addProxy = (rssLink) => {
   const urlWithProxy = new URL('/get', 'https://allorigins.hexlet.app')
   urlWithProxy.searchParams.set('url', rssLink)
   urlWithProxy.searchParams.set('disableCache', 'true')
   return urlWithProxy.toString()
 }
 
-const getData = inputValue => {
+const getData = (inputValue) => {
   watchedState.inputData = inputValue.trim()
   watchedState.enteredData.push(watchedState.inputData)
   watchedState.dataFetchStatus = 'processing'
@@ -45,25 +45,29 @@ const getData = inputValue => {
 
   return axios
     .get(url)
-    .then(response => {
+    .then((response) => {
       watchedState.dataFetchStatus = 'success'
       const responseData = response.data.contents
       return responseData
     })
-    .catch(error => {
+    .catch((error) => {
       watchedState.getDataError = error.message
       watchedState.dataFetchStatus = 'failed'
       throw error
     })
 }
 
-const parserData = responseData => {
+const parserData = (responseData) => {
   try {
     const parser = new DOMParser()
     const xmlDoc = parser.parseFromString(responseData, 'text/xml')
     const channel = xmlDoc.querySelector('channel')
-    const feedName = channel.querySelector('title') ? channel.querySelector('title').textContent : ''
-    const feedDescription = channel.querySelector('description') ? channel.querySelector('description').textContent : ''
+    const feedName = channel.querySelector('title')
+      ? channel.querySelector('title').textContent
+      : ''
+    const feedDescription = channel.querySelector('description')
+      ? channel.querySelector('description').textContent
+      : ''
 
     const feed = {
       name: feedName,
@@ -73,10 +77,16 @@ const parserData = responseData => {
 
     const items = channel.querySelectorAll('item')
     const articles = Array.from(items)
-      .map(article => {
-        const articleTitle = article.querySelector('title') ? article.querySelector('title').textContent : ''
-        const articleDescr = article.querySelector('description') ? article.querySelector('description').textContent : ''
-        const articleUrl = article.querySelector('link') ? article.querySelector('link').textContent : ''
+      .map((article) => {
+        const articleTitle = article.querySelector('title')
+          ? article.querySelector('title').textContent
+          : ''
+        const articleDescr = article.querySelector('description')
+          ? article.querySelector('description').textContent
+          : ''
+        const articleUrl = article.querySelector('link')
+          ? article.querySelector('link').textContent
+          : ''
         if (!articleUrl) {
           return null
         }
@@ -93,14 +103,15 @@ const parserData = responseData => {
       articles,
       feeds: [feed],
     }
-  } catch (error) {
+  }
+  catch (error) {
     watchedState.parsingStatus = 'failed'
     watchedState.parsingError = error.message
     return null
   }
 }
 
-const updateStateWithParserData = responseData => {
+const updateStateWithParserData = (responseData) => {
   const parsData = parserData(responseData)
 
   if (!parsData) {
@@ -118,27 +129,28 @@ const updateStateWithParserData = responseData => {
 
 const updateRssData = async () => {
   const feeds = [...watchedState.enteredData]
-  const fetchPromises = feeds.map(feedUrl => {
+  const fetchPromises = feeds.map((feedUrl) => {
     watchedState.dataFetchStatus = 'processing'
     const proxyFeedUrl = addProxy(feedUrl)
 
-    return axios.get(proxyFeedUrl).then(response => {
+    return axios.get(proxyFeedUrl).then((response) => {
       watchedState.dataFetchStatus = 'success'
       const feedData = parserData(response.data.contents)
       // prettier-ignore
       const allNewArticles = feedData.articles
-        .map((article) => ({ ...article }));
+        .map(article => ({ ...article }))
       // prettier-ignore
       const oldArticles = Object.values(watchedState.UI.articles)
-        .filter((article) => article.feedId);
+        .filter(article => article.feedId)
       // prettier-ignore
       const newArticles = differenceWith(allNewArticles, oldArticles, (art1, art2) => art1.title === art2.title)
-        .map((article) => ({ ...article, id: uniqueId() }));
+        .map(article => ({ ...article, id: uniqueId() }))
       console.log(`newArticles: ${JSON.stringify(newArticles)}`)
       if (newArticles.length > 0) {
         watchedState.UI.articles = [...newArticles, ...watchedState.UI.articles]
         watchedState.updateStatus = 'success'
-      } else {
+      }
+      else {
         watchedState.updateStatus = 'no new articles'
       }
     })
@@ -150,7 +162,7 @@ const updateRssData = async () => {
 // обратока клика по ссылке
 
 const postManager = {
-  markAsRead: postId => {
+  markAsRead: (postId) => {
     watchedState.readPosts.readIds.add(postId)
   },
   isRead: postId => watchedState.readPosts.readIds.has(postId),
@@ -163,4 +175,4 @@ export {
   updateStateWithParserData,
   updateRssData,
   postManager,
-};
+}

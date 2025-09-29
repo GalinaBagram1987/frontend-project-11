@@ -8,3 +8,4 @@ __tests__
 test-results
 playwright.config.js
 .prettierrc
+.vscode
